@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EnvDTE" Version="8.0.2" />
+
+    <PackageReference Include="Microsoft.Build"           Version="15.5.180" />
+    <PackageReference Include="Microsoft.Build.Framework" Version="15.5.180" />
+
+    <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" Version="15.9.28307" />
+  </ItemGroup>
+
+</Project>
