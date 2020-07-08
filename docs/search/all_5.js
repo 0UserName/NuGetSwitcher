@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['icommandrouter_24',['ICommandRouter',['../d6/d5d/interface_nu_get_switcher_1_1_menu_1_1_i_command_router.html',1,'NuGetSwitcher::Menu']]],
+  ['icommandrouter_2ecs_25',['ICommandRouter.cs',['../d5/de0/_i_command_router_8cs.html',1,'']]],
+  ['iglobalcommand_26',['IGlobalCommand',['../d1/d4f/interface_nu_get_switcher_1_1_menu_1_1_i_global_command.html',1,'NuGetSwitcher::Menu']]],
+  ['iglobalcommand_2ecs_27',['IGlobalCommand.cs',['../db/da5/_i_global_command_8cs.html',1,'']]],
+  ['imessagehelper_28',['IMessageHelper',['../d6/d45/interface_nu_get_switcher_1_1_helper_1_1_i_message_helper.html',1,'NuGetSwitcher::Helper']]],
+  ['imessagehelper_2ecs_29',['IMessageHelper.cs',['../d2/d3c/_i_message_helper_8cs.html',1,'']]],
+  ['includeproject_30',['IncludeProject',['../d2/d4b/class_nu_get_switcher_1_1_core_1_1_switch_1_1_project_switch.html#a90b2a7f598ddd27bbd0645a840d853b3',1,'NuGetSwitcher::Core::Switch::ProjectSwitch']]],
+  ['initialize_31',['Initialize',['../d0/d06/class_nu_get_switcher_1_1_menu_1_1_global_command.html#a7c2dad21047db32df8753e2f5bcc1012',1,'NuGetSwitcher.Menu.GlobalCommand.Initialize()'],['../d1/d4f/interface_nu_get_switcher_1_1_menu_1_1_i_global_command.html#a5377c3f344f8a3d8300f94a7708d478c',1,'NuGetSwitcher.Menu.IGlobalCommand.Initialize()']]],
+  ['initializeasync_32',['InitializeAsync',['../dd/d0f/class_nu_get_switcher_1_1_main.html#a9e19bbbc7658f2b819696b3b3a017237',1,'NuGetSwitcher::Main']]],
+  ['ipackageoption_33',['IPackageOption',['../df/d1e/interface_nu_get_switcher_1_1_core_1_1_option_1_1_i_package_option.html',1,'NuGetSwitcher::Core::Option']]],
+  ['ipackageoption_2ecs_34',['IPackageOption.cs',['../d3/dd1/_i_package_option_8cs.html',1,'']]],
+  ['ipackageswitch_35',['IPackageSwitch',['../d6/d88/interface_nu_get_switcher_1_1_core_1_1_switch_1_1_i_package_switch.html',1,'NuGetSwitcher::Core::Switch']]],
+  ['ipackageswitch_2ecs_36',['IPackageSwitch.cs',['../d1/dcf/_i_package_switch_8cs.html',1,'']]],
+  ['iprojecthelper_37',['IProjectHelper',['../df/d78/interface_nu_get_switcher_1_1_helper_1_1_i_project_helper.html',1,'NuGetSwitcher::Helper']]],
+  ['iprojecthelper_2ecs_38',['IProjectHelper.cs',['../d6/dce/_i_project_helper_8cs.html',1,'']]],
+  ['iprojectswitch_2ecs_39',['IProjectSwitch.cs',['../da/d4c/_i_project_switch_8cs.html',1,'']]],
+  ['iprojectswtich_40',['IProjectSwtich',['../db/dbc/interface_nu_get_switcher_1_1_core_1_1_switch_1_1_i_project_swtich.html',1,'NuGetSwitcher::Core::Switch']]]
+];
