@@ -50,7 +50,7 @@ namespace NuGetSwitcher.Core.Switch
         /// <exception cref="SwitcherFileNotFoundException"/>
         public static LockFile GetLockFile(ProjectReference reference)
         {
-            return LockFileUtilities.GetLockFile(reference.LockFile, NullLogger.Instance);
+            return LockFileUtilities.GetLockFile(reference.LockFile, NullLogger.Instance) ?? new LockFile();
         }
 
         /// <summary>
@@ -62,7 +62,12 @@ namespace NuGetSwitcher.Core.Switch
         /// <exception cref="SwitcherFileNotFoundException"/>
         public static LockFileTarget GetProjectTarget(ProjectReference reference)
         {
-            return GetLockFile(reference).GetTarget(new NuGetFramework(reference.TFI, new Version(reference.TFV), string.Empty), null);
+            return GetLockFile(reference).GetTarget(new NuGetFramework(reference.TFI, new Version(reference.TFV), string.Empty), null) ??
+
+                new LockFileTarget()
+                {
+                    Libraries = new List<LockFileTargetLibrary>()
+                };
         }
 
         /// <summary>

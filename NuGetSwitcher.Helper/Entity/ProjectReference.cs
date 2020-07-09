@@ -4,6 +4,7 @@ using NuGetSwitcher.Helper.Entity.Error;
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace NuGetSwitcher.Helper.Entity
@@ -90,7 +91,17 @@ namespace NuGetSwitcher.Helper.Entity
 
                 if (!File.Exists(path))
                 {
-                    throw new SwitcherFileNotFoundException(MsbProject, $"File { path }. Message: Project lock file not found");
+                    /*
+                     * If there are no NuGet 
+                     * dependencies, then do 
+                     * not need to throw the 
+                     * exception.
+                     */
+
+                    if (MsbProject.GetItems("PackageReference").Any())
+                    {
+                        throw new SwitcherFileNotFoundException(MsbProject, $"File { path }. Message: Project lock file not found");
+                    }
                 }
 
                 return path;
