@@ -1,16 +1,10 @@
 ﻿using Microsoft.Build.Evaluation;
 
-using Microsoft.VisualStudio.Shell;
-
-using NuGet.Common;
-using NuGet.Frameworks;
-using NuGet.Packaging.Core;
 using NuGet.ProjectModel;
-
-using NuGetSwitcher.Core.Enum;
 
 using NuGetSwitcher.Helper;
 using NuGetSwitcher.Helper.Entity;
+using NuGetSwitcher.Helper.Entity.Enum;
 using NuGetSwitcher.Helper.Entity.Error;
 
 using System;
@@ -21,7 +15,7 @@ using System.Linq;
 
 namespace NuGetSwitcher.Core.Switch
 {
-    public class ProjectSwitch : IProjectSwtich
+    public class ProjectSwitch : AbstractSwitch, IProjectSwtich
     {
         protected IProjectHelper ProjectHelper
         {
@@ -29,45 +23,10 @@ namespace NuGetSwitcher.Core.Switch
             set;
         }
 
-        protected IMessageHelper MessageHelper
-        {
-            get;
-            set;
-        }
-
-        public ProjectSwitch(IProjectHelper projectHelper, IMessageHelper messageHelper)
+        public ProjectSwitch(IProjectHelper projectHelper, IMessageHelper messageHelper, bool isVSIX) : base(isVSIX, messageHelper)
         {
             ProjectHelper = projectHelper;
             MessageHelper = messageHelper;
-        }
-
-        /// <summary>
-        /// Returns the <see cref="LockFile"/> object that 
-        /// represents the contents of project.assets.json. 
-        /// Used to identify project dependencies.
-        /// </summary>
-        /// 
-        /// <exception cref="SwitcherFileNotFoundException"/>
-        public static LockFile GetLockFile(ProjectReference reference)
-        {
-            return LockFileUtilities.GetLockFile(reference.LockFile, NullLogger.Instance) ?? new LockFile();
-        }
-
-        /// <summary>
-        /// Returns the <see cref="LockFileTarget"/> section
-        /// for a project TFM from the lock file provided by 
-        /// <see cref="LockFile"/>.
-        /// </summary>
-        /// 
-        /// <exception cref="SwitcherFileNotFoundException"/>
-        public static LockFileTarget GetProjectTarget(ProjectReference reference)
-        {
-            return GetLockFile(reference).GetTarget(new NuGetFramework(reference.TFI, new Version(reference.TFV), string.Empty), null) ??
-
-                new LockFileTarget()
-                {
-                    Libraries = new List<LockFileTargetLibrary>()
-                };
         }
 
         /// <summary>
@@ -88,13 +47,15 @@ namespace NuGetSwitcher.Core.Switch
 
             foreach (ProjectReference reference in references)
             {
-                foreach (LockFileTargetLibrary library in GetProjectTarget(reference).Libraries)
+                foreach (LockFileTargetLibrary library in PackageHelper.GetProjectTarget(reference).Libraries)
                 {
                     if (projectPaths.TryGetValue(library.Name, out string absolutePath))
                     {
+                        // Reference will be changed.
                         SwitchSysDependency(reference, library);
-                        SwitchPkgDependency(reference, library, ref toInclude, absolutePath);
-                        SwitchPkgDependency(reference, library, ref toInclude, projectPaths);
+                        SwitchPkgDependency(reference, library, absolutePath);
+
+                        toInclude.Add(absolutePath);
                     }
                 }
 
@@ -112,21 +73,20 @@ namespace NuGetSwitcher.Core.Switch
         public virtual void SwitchSysDependency(ProjectReference reference, LockFileTargetLibrary library)
         {
             Dictionary<string, string> metadata = new
-            Dictionary<string, string>(4)
+            Dictionary<string, string>(1)
             {
-                { "Type", "Temp" }
+                { "_Temp", "Temp" }
             };
 
             foreach (string assembly in library.FrameworkAssemblies)
             {
-                AddReference(ref reference, ReferenceType.Reference, assembly, metadata);
+                AddReference(reference, ReferenceType.Reference, assembly, metadata);
             }
         }
 
         /// <summary>
-        /// Includes references to the project. If <paramref name="library"/>
-        /// is null, then dependency is considered as implicit, otherwise as 
-        /// explicit.
+        /// Includes implicit, explicit project references
+        /// listed in the targets section of the lock file.
         /// </summary>
         /// 
         /// <exception cref="SwitcherException"/>
@@ -134,15 +94,13 @@ namespace NuGetSwitcher.Core.Switch
         /// <remarks>
         /// Implicit dependencies mean transitive.
         /// </remarks>
-        public virtual void SwitchPkgDependency(ProjectReference reference, LockFileTargetLibrary library, ref HashSet<string> toInclude, string absolutePath)
+        public virtual void SwitchPkgDependency(ProjectReference reference, LockFileTargetLibrary library, string absolutePath)
         {
             Dictionary<string, string> metadata = new
             Dictionary<string, string>(4)
             {
-                { "Type", "Temp" }
+                { "_Temp", "Temp" }
             };
-
-            ProjectItem item;
 
             /*
              * References can be represented by several values in
@@ -150,20 +108,17 @@ namespace NuGetSwitcher.Core.Switch
              * Condition attribute.
              */
 
-            ICollection<ProjectItem> items = reference.MsbProject.GetItemsByEvaluatedInclude(library?.Name ?? string.Empty);
+            ICollection<ProjectItem> items = reference.MsbProject.GetItemsByEvaluatedInclude(library.Name);
 
             if (!items.Any())
             {
-                if (library != default)
-                {
-                    return;
-                }
-
+                // As implicit.
                 metadata.Add("Name", Path.GetFileNameWithoutExtension(absolutePath));
             }
             else
             {
-                item = items.First();
+                // As explicit.
+                ProjectItem item = items.First();
 
                 metadata.Add("Name"   , item.EvaluatedInclude);
                 metadata.Add("Include", item.EvaluatedInclude);
@@ -173,30 +128,7 @@ namespace NuGetSwitcher.Core.Switch
                 reference.MsbProject.RemoveItems(items);
             }
 
-            AddReference(ref reference, ReferenceType.ProjectReference, absolutePath, metadata);
-
-            toInclude.Add(absolutePath);
-        }
-
-        /// <summary>
-        /// Includes references presented as
-        /// implicit project dependencies.
-        /// </summary>
-        /// 
-        /// <exception cref="SwitcherException"/>
-        /// 
-        /// <remarks>
-        /// Implicit dependencies mean transitive.
-        /// </remarks>
-        public virtual void SwitchPkgDependency(ProjectReference reference, LockFileTargetLibrary library, ref HashSet<string> toInclude, ReadOnlyDictionary<string, string> projectPaths)
-        {
-            foreach (PackageDependency dependency in library.Dependencies)
-            {
-                if (projectPaths.TryGetValue(dependency.Id, out string absolutePath))
-                {
-                    SwitchPkgDependency(reference, null, ref toInclude, absolutePath);
-                }
-            }
+            AddReference(reference, ReferenceType.ProjectReference, absolutePath, metadata);
         }
 
         /// <summary>
@@ -205,41 +137,18 @@ namespace NuGetSwitcher.Core.Switch
         /// earlier.
         /// </summary>
         /// 
-        /// <param name="type">
-        /// All except <see cref="ReferenceType.PackageReference"/>
-        /// </param>
-        /// 
         /// <param name="unevaluatedInclude">
         /// Must contain the assembly 
         /// name or the absolute path 
         /// to the project.
         /// </param>
         /// 
-        /// <remarks>
-        /// https://github.com/Microsoft/msbuild/issues/3923.
-        /// </remarks>
-        protected virtual void AddReference(ref ProjectReference reference, ReferenceType type, string unevaluatedInclude, Dictionary<string, string> metadata)
+        /// <returns>
+        /// Returns false for duplicate unevaluatedInclude values.
+        /// </returns>
+        protected override bool AddReference(ProjectReference reference, ReferenceType type, string unevaluatedInclude, Dictionary<string, string> metadata)
         {
-            if (reference.MsbProject.GetItemsByEvaluatedInclude(unevaluatedInclude).Any())
-            {
-                return;
-            }
-
-            switch (type)
-            {
-                case ReferenceType.ProjectReference:
-                    ;
-                    break;
-                case ReferenceType.Reference:
-                    ;
-                    break;
-                default:
-                    throw new SwitcherException(reference.MsbProject, $"Reference type not supported: { type }");
-            }
-
-            reference.MsbProject.AddItem(type.ToString(), unevaluatedInclude, metadata);
-
-            MessageHelper.AddMessage(reference.MsbProject.FullPath, $"Dependency: { Path.GetFileName(unevaluatedInclude) } has been added. Type: { type }", TaskErrorCategory.Message);
+            return base.AddReference(reference, type, unevaluatedInclude, metadata);
         }
 
         /// <summary>
@@ -251,22 +160,34 @@ namespace NuGetSwitcher.Core.Switch
         /// Absolute paths to project
         /// files without duplicates.
         /// </param>
+        /// 
+        /// <remarks>
+        /// Uses DTE - only works from Visual Studio.
+        /// </remarks>
         public virtual void IncludeProject(IEnumerable<string> projects)
         {
-            EnvDTE.DTE dte = Package.GetGlobalService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+            /*
+             * I don’t know how, but the AddFromFile method depends
+             * on the GPC, therefore, to avoid errors, all projects 
+             * are forcibly unloaded.
+             */
+
+            ProjectHelper.UnloadProject();
 
             try
             {
                 foreach (string project in projects)
                 {
-                    dte.Solution.AddFromFile(project, false);
+                    DTE.Solution.AddFromFile(project, false);
                 }
-
-                dte.Solution.SaveAs(dte.Solution.FileName);
             }
             catch (Exception exception)
             {
                 MessageHelper.AddMessage(exception);
+            }
+            finally
+            {
+                DTE.Solution.SaveAs(DTE.Solution.FileName);
             }
         }
     }

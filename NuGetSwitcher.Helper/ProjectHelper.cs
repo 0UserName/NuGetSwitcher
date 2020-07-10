@@ -67,8 +67,6 @@ namespace NuGetSwitcher.Helper
         /// <summary>
         /// Unloads projects from GPC.
         /// </summary>
-        /// 
-        /// <exception cref="SwitcherInvalidOperationException"/>
         public virtual void UnloadProject()
         {
             ProjectCollection.GlobalProjectCollection.UnloadAllProjects();

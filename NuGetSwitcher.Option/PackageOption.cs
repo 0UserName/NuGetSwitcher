@@ -22,14 +22,16 @@ namespace NuGetSwitcher.Core.Option
         /// Returns a set of user-defined projects 
         /// location used when switching reference.
         /// </summary>
+        /// 
+        /// <exception cref="FileNotFoundException"/>
         public HashSet<string> GetProjectLocation()
         {
-            return new HashSet<string>(File.Exists(ConfigurationFile) ? File.ReadAllLines(ConfigurationFile) :
+            if (!File.Exists(ConfigurationFile))
+            {
+                throw new FileNotFoundException("Configuration file not specified or not found");
+            }
 
-                new string[]
-                {
-                    // Empty.
-                });
+            return new HashSet<string>(File.ReadAllLines(ConfigurationFile));
         }
     }
 }

@@ -128,11 +128,13 @@ namespace NuGetSwitcher.Helper
         /// </remarks>
         protected virtual IVsHierarchy GetProjectHierarchyItem(string project)
         {
+            int S_OK = 0;
+
             ThreadHelper.ThrowIfNotOnUIThread();
 
             int exitCode = VsSolution.GetProjectOfUniqueName(project, out IVsHierarchy hierarchyItem);
 
-            if (exitCode != 0)
+            if (exitCode != S_OK)
             {
                 AddMessage($"Exit code: { exitCode }", TaskErrorCategory.Error);
             }

@@ -58,8 +58,8 @@ namespace NuGetSwitcher
             IMessageHelper messageHelper = new MessageHelper(vsSolution, new ErrorListProvider(this));
             IProjectHelper projectHelper = new ProjectHelper();
 
-            IProjectSwtich projectSwtich = new ProjectSwitch(projectHelper, messageHelper);
-            IPackageSwitch packageSwitch = new PackageSwitch(projectHelper, messageHelper);
+            IProjectSwtich projectSwtich = new ProjectSwitch(projectHelper, messageHelper, true);
+            IPackageSwitch packageSwitch = new PackageSwitch(projectHelper, messageHelper, true);
 
             IPackageOption packageOption = (IPackageOption)GetDialogPage(typeof(PackageOption));
 

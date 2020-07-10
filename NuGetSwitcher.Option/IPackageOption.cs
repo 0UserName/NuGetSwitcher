@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace NuGetSwitcher.Core.Option
 {
@@ -8,6 +9,8 @@ namespace NuGetSwitcher.Core.Option
         /// Returns a set of user-defined projects 
         /// location used when switching reference.
         /// </summary>
+        /// 
+        /// <exception cref="FileNotFoundException"/>
         HashSet<string> GetProjectLocation();
     }
 }

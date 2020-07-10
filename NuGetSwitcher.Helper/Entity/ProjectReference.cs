@@ -1,5 +1,6 @@
 ﻿using Microsoft.Build.Evaluation;
 
+using NuGetSwitcher.Helper.Entity.Enum;
 using NuGetSwitcher.Helper.Entity.Error;
 
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace NuGetSwitcher.Helper.Entity
         /// </remarks>
         public string TFM
         {
-            get => DteProperties["TargetFrameworkMoniker"];
+            get => _dteProperties["TargetFrameworkMoniker"];
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace NuGetSwitcher.Helper.Entity
         /// </remarks>
         public string TFMs
         {
-            get => DteProperties["TargetFrameworkMonikers"];
+            get => _dteProperties["TargetFrameworkMonikers"];
         }
 
         /// <summary>
@@ -98,7 +99,7 @@ namespace NuGetSwitcher.Helper.Entity
                      * exception.
                      */
 
-                    if (MsbProject.GetItems("PackageReference").Any())
+                    if (MsbProject.GetItems(nameof(ReferenceType.PackageReference)).Any())
                     {
                         throw new SwitcherFileNotFoundException(MsbProject, $"File { path }. Message: Project lock file not found");
                     }
@@ -108,12 +109,23 @@ namespace NuGetSwitcher.Helper.Entity
             }
         }
 
-        private Dictionary<string, string> DteProperties
+        /// <summary>
+        /// Checks that the project 
+        /// is inside the directory 
+        /// of the current solution.
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// Projects outside the directory are considered temporary.
+        /// </remarks>
+        public bool IsTemp
         {
             get;
-            set;
+            private set;
+        }
 
-        } = new Dictionary<string, string>
+        private readonly Dictionary<string, string> _dteProperties = new
+                         Dictionary<string, string>
         {
             { "TargetFrameworkMoniker" , "" },
             { "TargetFrameworkMonikers", "" }
@@ -129,7 +141,7 @@ namespace NuGetSwitcher.Helper.Entity
 
         /// <summary>
         /// Retrieves property values defined
-        /// by keys in dictionary <see cref="DteProperties"/>
+        /// by keys in dictionary <see cref="_dteProperties"/>
         /// from <paramref name="project"/> and assigns them
         /// as values of the same keys.
         /// </summary>
@@ -137,9 +149,9 @@ namespace NuGetSwitcher.Helper.Entity
         {
             foreach (EnvDTE.Property property in project.Properties)
             {
-                if (DteProperties.ContainsKey(property.Name))
+                if (_dteProperties.ContainsKey(property.Name))
                 {
-                    DteProperties[property.Name] = property.Value as string;
+                    _dteProperties[property.Name] = property.Value as string;
                 }
             }
 
@@ -147,6 +159,8 @@ namespace NuGetSwitcher.Helper.Entity
 
             TFI = match.Groups["TFI"].Value;
             TFV = match.Groups["TFV"].Value;
+
+            IsTemp = !Directory.GetFiles(Path.GetDirectoryName(DteProject.DTE.Solution.FullName), Path.GetFileName(MsbProject.FullPath), SearchOption.AllDirectories).Any();
         }
 
         public void Save()
