@@ -1,5 +1,5 @@
 ﻿using Microsoft.Build.Evaluation;
-
+using Microsoft.VisualStudio.Shell;
 using NuGet.ProjectModel;
 
 using NuGetSwitcher.Helper;
@@ -10,7 +10,6 @@ using NuGetSwitcher.Helper.Entity.Error;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 
 namespace NuGetSwitcher.Core.Switch
@@ -75,7 +74,7 @@ namespace NuGetSwitcher.Core.Switch
             Dictionary<string, string> metadata = new
             Dictionary<string, string>(1)
             {
-                { "_Temp", "Temp" }
+                { "Temp", "Temp" }
             };
 
             foreach (string assembly in library.FrameworkAssemblies)
@@ -96,12 +95,6 @@ namespace NuGetSwitcher.Core.Switch
         /// </remarks>
         public virtual void SwitchPkgDependency(ProjectReference reference, LockFileTargetLibrary library, string absolutePath)
         {
-            Dictionary<string, string> metadata = new
-            Dictionary<string, string>(4)
-            {
-                { "_Temp", "Temp" }
-            };
-
             /*
              * References can be represented by several values in
              * an ItemGroup, for example, when included using the 
@@ -110,25 +103,37 @@ namespace NuGetSwitcher.Core.Switch
 
             ICollection<ProjectItem> items = reference.MsbProject.GetItemsByEvaluatedInclude(library.Name);
 
+            // As implicit.
             if (!items.Any())
             {
-                // As implicit.
-                metadata.Add("Name", Path.GetFileNameWithoutExtension(absolutePath));
+                AddReference(reference, ReferenceType.ProjectReference, absolutePath, new Dictionary<string, string>(2)
+                {
+                    { "Temp", library.Name },
+                    { "Name", library.Name }
+                 });
             }
+            // As explicit.
             else
             {
-                // As explicit.
-                ProjectItem item = items.First();
+                /*
+                 * Re-creating an item can lead to the loss
+                 * of user metadata; in order to avoid this,
+                 * the item is redefined.
+                 */
 
-                metadata.Add("Name"   , item.EvaluatedInclude);
-                metadata.Add("Include", item.EvaluatedInclude);
-                metadata.Add("Version", item.
-                    GetMetadataValue("Version"));
+                foreach (ProjectItem item in items)
+                {
+                    item.ItemType = nameof(ReferenceType.ProjectReference);
 
-                reference.MsbProject.RemoveItems(items);
+                    item.SetMetadataValue("Temp"   , item.EvaluatedInclude);
+                    item.SetMetadataValue("Name"   , item.EvaluatedInclude);
+                    item.SetMetadataValue("Include", item.EvaluatedInclude);
+
+                    item.UnevaluatedInclude = absolutePath;
+                }
+
+                MessageHelper.AddMessage(reference.DteProject.UniqueName, $"Dependency: {library.Name } has been switched. Type: { ReferenceType.ProjectReference }", TaskErrorCategory.Message);
             }
-
-            AddReference(reference, ReferenceType.ProjectReference, absolutePath, metadata);
         }
 
         /// <summary>

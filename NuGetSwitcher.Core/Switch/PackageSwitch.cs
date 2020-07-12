@@ -1,5 +1,7 @@
 ﻿using Microsoft.Build.Evaluation;
 
+using Microsoft.VisualStudio.Shell;
+
 using NuGetSwitcher.Helper;
 using NuGetSwitcher.Helper.Entity;
 using NuGetSwitcher.Helper.Entity.Enum;
@@ -48,35 +50,11 @@ namespace NuGetSwitcher.Core.Switch
         }
 
         /// <summary>
-        /// Removes references that have the 
-        /// _Temp attribute and which have been added 
-        /// from the targets section of the lock file.
-        /// </summary>
-        /// 
-        /// <exception cref="SwitcherException"/>
-        public virtual void SwitchPkgDependency(ProjectReference reference)
-        {
-            IEnumerable<ProjectItem> items = GetTempReference(reference, ReferenceType.ProjectReference);
-
-            foreach (ProjectItem item in items)
-            {
-                if (!item.HasMetadata("Version"))
-                {
-                    continue;
-                }
-
-                AddReference(reference,
-                    item.GetMetadataValue("Include"),
-                    item.GetMetadataValue("Version"));
-            }
-
-            reference.MsbProject.RemoveItems(items);
-        }
-
-        /// <summary>
-        /// Removes references that have the _Temp
-        /// attribute and which have been added from the 
-        /// FrameworkAssemblies section of the lock file.
+        /// Removes references that have 
+        /// the Temp attribute and which 
+        /// were added from the 
+        /// FrameworkAssemblies section 
+        /// of the lock file.
         /// </summary>
         public virtual void SwitchSysDependency(ProjectReference reference)
         {
@@ -84,38 +62,45 @@ namespace NuGetSwitcher.Core.Switch
         }
 
         /// <summary>
-        /// Returns references that have
-        /// the _Temp attribute with the
-        /// Temp value.
+        /// Removes references that have the Temp attribute
+        /// and which were added from the target section of
+        /// the lock file.
         /// </summary>
-        public virtual IEnumerable<ProjectItem> GetTempReference(ProjectReference reference, ReferenceType type)
+        public virtual void SwitchPkgDependency(ProjectReference reference)
         {
-            return reference.MsbProject.GetItems(type.ToString()).Where(i => i.HasMetadata("_Temp"));
+            IList<ProjectItem> items = GetTempReference(reference, ReferenceType.ProjectReference).ToList();
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                ProjectItem item = items[i];
+
+                if (!item.HasMetadata("Version"))
+                {
+                    reference.MsbProject.RemoveItem(item);
+                }
+                else
+                {
+                    item.UnevaluatedInclude = item.GetMetadataValue("Include");
+
+                    item.RemoveMetadata("Temp");
+                    item.RemoveMetadata("Name");
+                    item.RemoveMetadata("Include");
+
+                    item.ItemType = nameof(ReferenceType.PackageReference);
+                }
+
+                MessageHelper.AddMessage(reference.DteProject.UniqueName, $"Dependency: { item.EvaluatedInclude } has been switched back. Type: { ReferenceType.PackageReference }", TaskErrorCategory.Message);
+            }
         }
 
         /// <summary>
-        /// Adds reference to the project. It is assumed
-        /// that the original reference has been removed 
-        /// earlier.
+        /// Returns references with the
+        /// passed type and marked with 
+        /// the Temp attribute.
         /// </summary>
-        /// 
-        /// <param name="unevaluatedInclude">
-        /// PackageId.
-        /// </param>
-        /// 
-        /// <exception cref="SwitcherException"/>
-        /// 
-        /// <returns>
-        /// Returns false for duplicate unevaluatedInclude values.
-        /// </returns>
-        protected virtual bool AddReference(ProjectReference reference, string unevaluatedInclude, string version)
+        public virtual IEnumerable<ProjectItem> GetTempReference(ProjectReference reference, ReferenceType type)
         {
-            return base.AddReference(reference, ReferenceType.PackageReference, unevaluatedInclude,
-
-                new Dictionary<string, string>(1)
-                {
-                    { "Version", version }
-                });
+            return reference.MsbProject.GetItems(type.ToString()).Where(i => i.HasMetadata("Temp"));
         }
 
         /// <summary>
