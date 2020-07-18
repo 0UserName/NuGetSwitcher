@@ -1,13 +1,14 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-using NuGetSwitcher.Core.Option;
 using NuGetSwitcher.Core.Router;
 using NuGetSwitcher.Core.Switch;
 
 using NuGetSwitcher.Helper;
 
 using NuGetSwitcher.Menu;
+
+using NuGetSwitcher.Option;
 
 using System;
 using System.ComponentModel.Design;
@@ -58,8 +59,9 @@ namespace NuGetSwitcher
             IMessageHelper messageHelper = new MessageHelper(vsSolution, new ErrorListProvider(this));
             IProjectHelper projectHelper = new ProjectHelper();
 
-            IProjectSwtich projectSwtich = new ProjectSwitch(projectHelper, messageHelper, true);
-            IPackageSwitch packageSwitch = new PackageSwitch(projectHelper, messageHelper, true);
+            IPackageOption packageOption = (PackageOption)GetDialogPage(typeof(PackageOption));
+
+            ((PackageOption)packageOption).Init(messageHelper);
 
             IPackageOption packageOption = (IPackageOption)GetDialogPage(typeof(PackageOption));
 

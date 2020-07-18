@@ -7,6 +7,8 @@ using NuGetSwitcher.Helper.Entity;
 using NuGetSwitcher.Helper.Entity.Enum;
 using NuGetSwitcher.Helper.Entity.Error;
 
+using NuGetSwitcher.Option;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -1,16 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using NuGetSwitcher.Helper.Entity.Enum;
+
+using System;
+using System.Collections.ObjectModel;
 using System.IO;
 
-namespace NuGetSwitcher.Core.Option
+namespace NuGetSwitcher.Option
 {
     public interface IPackageOption
     {
         /// <summary>
-        /// Returns a set of user-defined projects 
-        /// location used when switching reference.
+        /// Returns a dictionary where file names are 
+        /// used as keys, and absolute file paths are 
+        /// values.
         /// </summary>
         /// 
         /// <exception cref="FileNotFoundException"/>
-        HashSet<string> GetProjectLocation();
+        /// 
+        /// <exception cref="ArgumentException">
+        ReadOnlyDictionary<string, string> GetIncludeItems(ReferenceType type);
     }
 }
