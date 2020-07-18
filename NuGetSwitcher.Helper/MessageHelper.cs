@@ -128,7 +128,7 @@ namespace NuGetSwitcher.Helper
         /// </remarks>
         protected virtual IVsHierarchy GetProjectHierarchyItem(string project)
         {
-            int S_OK = 0;
+            const int S_OK = 0;
 
             ThreadHelper.ThrowIfNotOnUIThread();
 

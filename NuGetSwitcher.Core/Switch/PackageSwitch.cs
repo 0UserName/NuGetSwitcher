@@ -2,6 +2,8 @@
 
 using Microsoft.VisualStudio.Shell;
 
+using NuGetSwitcher.Abstract;
+
 using NuGetSwitcher.Helper;
 using NuGetSwitcher.Helper.Entity;
 using NuGetSwitcher.Helper.Entity.Enum;
@@ -11,39 +13,31 @@ using NuGetSwitcher.Option;
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 
 namespace NuGetSwitcher.Core.Switch
 {
-    public class PackageSwitch : AbstractSwitch, IPackageSwitch
+    public class PackageSwitch : AbstractSwitch
     {
-        protected IProjectHelper ProjectHelper
-        {
-            get;
-            set;
-        }
-
-        public PackageSwitch(IProjectHelper projectHelper, IMessageHelper messageHelper, bool isVSIX) : base(isVSIX, messageHelper)
-        {
-            ProjectHelper = projectHelper;
-            MessageHelper = messageHelper;
-        }
+        public PackageSwitch(bool isVSIX, ReferenceType type, IPackageOption packageOption, IProjectHelper projectHelper, IMessageHelper messageHelper) : base(isVSIX, type, packageOption, projectHelper, messageHelper)
+        { }
 
         /// <summary>
-        /// Switches references to
-        /// projects to references 
-        /// to NuGet packages.
+        /// Replaces ProjectReference references marked
+        /// with the Temp attribute to PackageReference.
         /// </summary>
         /// 
         /// <exception cref="SwitcherException"/>
-        public virtual void SwithProject()
+        public override void Switch()
         {
             MessageHelper.Clear();
 
             foreach (ProjectReference reference in ProjectHelper.GetLoadedProject())
             {
-                SwitchSysDependency(reference);
-                SwitchPkgDependency(reference);
+                SwitchDependency(reference, ReferenceType.Reference);
+                SwitchDependency(reference, ReferenceType.ProjectReference);
 
                 reference.Save();
             }
@@ -52,46 +46,33 @@ namespace NuGetSwitcher.Core.Switch
         }
 
         /// <summary>
-        /// Removes references that have 
+        /// Removes references that have
         /// the Temp attribute and which 
-        /// were added from the 
-        /// FrameworkAssemblies section 
+        /// were added from the Dependencies 
+        /// and FrameworkAssemblies sections
         /// of the lock file.
         /// </summary>
-        public virtual void SwitchSysDependency(ProjectReference reference)
+        public virtual void SwitchDependency(ProjectReference reference, ReferenceType type)
         {
-            reference.MsbProject.RemoveItems(GetTempReference(reference, ReferenceType.Reference));
-        }
-
-        /// <summary>
-        /// Removes references that have the Temp attribute
-        /// and which were added from the target section of
-        /// the lock file.
-        /// </summary>
-        public virtual void SwitchPkgDependency(ProjectReference reference)
-        {
-            IList<ProjectItem> items = GetTempReference(reference, ReferenceType.ProjectReference).ToList();
-
-            for (int i = 0; i < items.Count; i++)
+            foreach (ProjectItem item in GetTempItem(reference, type))
             {
-                ProjectItem item = items[i];
-
+                // Implicit.
                 if (!item.HasMetadata("Version"))
                 {
                     reference.MsbProject.RemoveItem(item);
                 }
+                // Explicit.
                 else
                 {
-                    item.UnevaluatedInclude = item.GetMetadataValue("Include");
+                    item.UnevaluatedInclude = item.GetMetadataValue("Temp");
 
                     item.RemoveMetadata("Temp");
                     item.RemoveMetadata("Name");
-                    item.RemoveMetadata("Include");
 
-                    item.ItemType = nameof(ReferenceType.PackageReference);
+                    item.ItemType = Type.ToString();
                 }
 
-                MessageHelper.AddMessage(reference.DteProject.UniqueName, $"Dependency: { item.EvaluatedInclude } has been switched back. Type: { ReferenceType.PackageReference }", TaskErrorCategory.Message);
+                MessageHelper.AddMessage(reference.DteProject.UniqueName, $"Dependency: { Path.GetFileNameWithoutExtension(item.EvaluatedInclude) } has been switched back. Type: { Type }", TaskErrorCategory.Message);
             }
         }
 
@@ -100,9 +81,9 @@ namespace NuGetSwitcher.Core.Switch
         /// passed type and marked with 
         /// the Temp attribute.
         /// </summary>
-        public virtual IEnumerable<ProjectItem> GetTempReference(ProjectReference reference, ReferenceType type)
+        public virtual IReadOnlyList<ProjectItem> GetTempItem(ProjectReference reference, ReferenceType type)
         {
-            return reference.MsbProject.GetItems(type.ToString()).Where(i => i.HasMetadata("Temp"));
+            return reference.MsbProject.GetItems(type.ToString()).Where(i => i.HasMetadata("Temp")).ToImmutableList();
         }
 
         /// <summary>
@@ -117,25 +98,28 @@ namespace NuGetSwitcher.Core.Switch
         /// <remarks>
         /// Uses DTE - only works from Visual Studio.
         /// </remarks>
-        protected virtual void CleanSolution()
+        private void CleanSolution()
         {
-            try
+            if (IsVSIX)
             {
-                foreach (ProjectReference reference in ProjectHelper.GetLoadedProject())
+                try
                 {
-                    if (reference.IsTemp)
+                    foreach (ProjectReference reference in ProjectHelper.GetLoadedProject())
                     {
-                        DTE.Solution.Remove(reference.DteProject);
+                        if (reference.IsTemp)
+                        {
+                            DTE.Solution.Remove(reference.DteProject);
+                        }
                     }
                 }
-            }
-            catch (Exception exception)
-            {
-                MessageHelper.AddMessage(exception);
-            }
-            finally
-            {
-                DTE.Solution.SaveAs(DTE.Solution.FileName);
+                catch (Exception exception)
+                {
+                    MessageHelper.AddMessage(exception);
+                }
+                finally
+                {
+                    DTE.Solution.SaveAs(DTE.Solution.FileName);
+                }
             }
         }
     }

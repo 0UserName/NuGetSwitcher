@@ -29,6 +29,14 @@
           <ButtonText>Use PackageReference</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidNuGetSwitcherMenuGroup" id="SwitcherLibraryButton" priority="0x0300" type="Button">
+        <Parent guid="guidNuGetSwitcherMenuGroup" id="SwitcherMenuGroup" />
+        <Icon guid="ImageCatalogGuid" id="Reference" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Use Reference</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
   </Commands>
   <Symbols>
@@ -37,6 +45,7 @@
       <IDSymbol name="SwitcherMenuGroup"     value="0x1020" />
       <IDSymbol name="SwitcherProjectButton" value="0x0100" />
       <IDSymbol name="SwitcherPackageButton" value="0x0200" />
+      <IDSymbol name="SwitcherLibraryButton" value="0x0300" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

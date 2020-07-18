@@ -1,10 +1,13 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
+using NuGetSwitcher.Abstract;
+
 using NuGetSwitcher.Core.Router;
 using NuGetSwitcher.Core.Switch;
 
 using NuGetSwitcher.Helper;
+using NuGetSwitcher.Helper.Entity.Enum;
 
 using NuGetSwitcher.Menu;
 
@@ -63,12 +66,15 @@ namespace NuGetSwitcher
 
             ((PackageOption)packageOption).Init(messageHelper);
 
-            IPackageOption packageOption = (IPackageOption)GetDialogPage(typeof(PackageOption));
+            AbstractSwitch projectSwtich = new ProjectSwitch(true, ReferenceType.ProjectReference, packageOption, projectHelper, messageHelper);
+            AbstractSwitch packageSwitch = new PackageSwitch(true, ReferenceType.PackageReference, packageOption, projectHelper, messageHelper);
+            AbstractSwitch librarySwitch = new LibrarySwitch(true, ReferenceType.Reference, packageOption, projectHelper, messageHelper);
 
-            ICommandRouter commandRouter = new CommandRouter(projectSwtich, packageSwitch, packageOption);
+            ICommandRouter commandRouter = new CommandRouter(packageOption, projectSwtich, packageSwitch, librarySwitch);
 
             new CommandProject(commandRouter, messageHelper).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0100);
             new CommandPackage(commandRouter, messageHelper).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0200);
+            new CommandLibrary(commandRouter, messageHelper).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0300);
         }
     }
 }

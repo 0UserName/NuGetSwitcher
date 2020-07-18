@@ -1,5 +1,4 @@
-﻿using NuGetSwitcher.Core.Option;
-using NuGetSwitcher.Core.Switch;
+﻿using NuGetSwitcher.Abstract;
 
 using NuGetSwitcher.Menu;
 
@@ -7,20 +6,22 @@ using NuGetSwitcher.Option;
 
 namespace NuGetSwitcher.Core.Router
 {
-    public class CommandRouter : ICommandRouter
+    public sealed class CommandRouter : ICommandRouter
     {
-        protected readonly IProjectSwtich ProjectSwitch;
-        protected readonly IPackageSwitch PackageSwitch;
-        protected readonly IPackageOption PackageOption;
+        private readonly IPackageOption _packageOption;
+        private readonly AbstractSwitch _projectSwitch;
+        private readonly AbstractSwitch _packageSwitch;
+        private readonly AbstractSwitch _librarySwitch;
 
-        public CommandRouter(IProjectSwtich projectSwitch, IPackageSwitch packageSwitch, IPackageOption packageOption)
+        public CommandRouter(IPackageOption packageOption, AbstractSwitch projectSwitch, AbstractSwitch packageSwitch, AbstractSwitch librarySwitch)
         {
-            ProjectSwitch = projectSwitch;
-            PackageSwitch = packageSwitch;
-            PackageOption = packageOption;
+            _packageOption = packageOption;
+            _projectSwitch = projectSwitch;
+            _packageSwitch = packageSwitch;
+            _librarySwitch = librarySwitch;
         }
 
-        public virtual void Route(string command)
+        public void Route(string command)
         {
             switch (command)
             {
@@ -28,7 +29,10 @@ namespace NuGetSwitcher.Core.Router
                     _projectSwitch.Switch();
                     break;
                 case "CommandPackage":
-                    PackageSwitch.SwithProject();
+                    _packageSwitch.Switch();
+                    break;
+                case "CommandLibrary":
+                    _librarySwitch.Switch();
                     break;
             }
         }

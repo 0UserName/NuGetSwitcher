@@ -45,6 +45,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CommandLibrary.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="CommandPackage.cs" />
     <Compile Include="CommandProject.cs" />
@@ -64,6 +65,10 @@
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="16.5.2044" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NuGetSwitcher.Abstract\NuGetSwitcher.Abstract.csproj">
+      <Project>{55e0412b-954f-44bf-9fb8-a1a534de287a}</Project>
+      <Name>NuGetSwitcher.Abstract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NuGetSwitcher.Helper\NuGetSwitcher.Helper.csproj">
       <Project>{7fff3e33-545c-4fad-a3f0-806819b0f1cd}</Project>
       <Name>NuGetSwitcher.Helper</Name>

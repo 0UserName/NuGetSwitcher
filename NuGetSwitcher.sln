@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGetSwitcher", "NuGetSwitc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.Menu", "NuGetSwitcher.Menu\NuGetSwitcher.Menu.csproj", "{2D70F76A-789A-433D-8FD1-71F2B3FDE233}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGetSwitcher.Abstract", "NuGetSwitcher.Abstract\NuGetSwitcher.Abstract.csproj", "{55E0412B-954F-44BF-9FB8-A1A534DE287A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{2D70F76A-789A-433D-8FD1-71F2B3FDE233}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D70F76A-789A-433D-8FD1-71F2B3FDE233}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D70F76A-789A-433D-8FD1-71F2B3FDE233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55E0412B-954F-44BF-9FB8-A1A534DE287A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55E0412B-954F-44BF-9FB8-A1A534DE287A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55E0412B-954F-44BF-9FB8-A1A534DE287A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55E0412B-954F-44BF-9FB8-A1A534DE287A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

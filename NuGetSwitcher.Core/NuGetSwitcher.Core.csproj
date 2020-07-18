@@ -5,8 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NuGetSwitcher.Abstract\NuGetSwitcher.Abstract.csproj" />
     <ProjectReference Include="..\NuGetSwitcher.Helper\NuGetSwitcher.Helper.csproj" />
     <ProjectReference Include="..\NuGetSwitcher.Menu\NuGetSwitcher.Menu.csproj" />
     <ProjectReference Include="..\NuGetSwitcher.Option\NuGetSwitcher.Option.csproj" />
   </ItemGroup>
+
 </Project>
