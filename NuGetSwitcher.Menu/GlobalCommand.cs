@@ -32,7 +32,7 @@ namespace NuGetSwitcher.Menu
             private set;
         }
 
-        public GlobalCommand(ICommandRouter commandRouter, IMessageHelper messageHelper)
+        protected GlobalCommand(ICommandRouter commandRouter, IMessageHelper messageHelper)
         {
             CommandRouter = commandRouter;
             MessageHelper = messageHelper;
