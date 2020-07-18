@@ -1,20 +1,12 @@
 var searchData=
 [
-  ['icommandrouter_24',['ICommandRouter',['../d6/d5d/interface_nu_get_switcher_1_1_menu_1_1_i_command_router.html',1,'NuGetSwitcher::Menu']]],
-  ['icommandrouter_2ecs_25',['ICommandRouter.cs',['../d5/de0/_i_command_router_8cs.html',1,'']]],
-  ['iglobalcommand_26',['IGlobalCommand',['../d1/d4f/interface_nu_get_switcher_1_1_menu_1_1_i_global_command.html',1,'NuGetSwitcher::Menu']]],
-  ['iglobalcommand_2ecs_27',['IGlobalCommand.cs',['../db/da5/_i_global_command_8cs.html',1,'']]],
-  ['imessagehelper_28',['IMessageHelper',['../d6/d45/interface_nu_get_switcher_1_1_helper_1_1_i_message_helper.html',1,'NuGetSwitcher::Helper']]],
-  ['imessagehelper_2ecs_29',['IMessageHelper.cs',['../d2/d3c/_i_message_helper_8cs.html',1,'']]],
-  ['includeproject_30',['IncludeProject',['../d2/d4b/class_nu_get_switcher_1_1_core_1_1_switch_1_1_project_switch.html#a90b2a7f598ddd27bbd0645a840d853b3',1,'NuGetSwitcher::Core::Switch::ProjectSwitch']]],
-  ['initialize_31',['Initialize',['../d0/d06/class_nu_get_switcher_1_1_menu_1_1_global_command.html#a7c2dad21047db32df8753e2f5bcc1012',1,'NuGetSwitcher.Menu.GlobalCommand.Initialize()'],['../d1/d4f/interface_nu_get_switcher_1_1_menu_1_1_i_global_command.html#a5377c3f344f8a3d8300f94a7708d478c',1,'NuGetSwitcher.Menu.IGlobalCommand.Initialize()']]],
-  ['initializeasync_32',['InitializeAsync',['../dd/d0f/class_nu_get_switcher_1_1_main.html#a9e19bbbc7658f2b819696b3b3a017237',1,'NuGetSwitcher::Main']]],
-  ['ipackageoption_33',['IPackageOption',['../df/d1e/interface_nu_get_switcher_1_1_core_1_1_option_1_1_i_package_option.html',1,'NuGetSwitcher::Core::Option']]],
-  ['ipackageoption_2ecs_34',['IPackageOption.cs',['../d3/dd1/_i_package_option_8cs.html',1,'']]],
-  ['ipackageswitch_35',['IPackageSwitch',['../d6/d88/interface_nu_get_switcher_1_1_core_1_1_switch_1_1_i_package_switch.html',1,'NuGetSwitcher::Core::Switch']]],
-  ['ipackageswitch_2ecs_36',['IPackageSwitch.cs',['../d1/dcf/_i_package_switch_8cs.html',1,'']]],
-  ['iprojecthelper_37',['IProjectHelper',['../df/d78/interface_nu_get_switcher_1_1_helper_1_1_i_project_helper.html',1,'NuGetSwitcher::Helper']]],
-  ['iprojecthelper_2ecs_38',['IProjectHelper.cs',['../d6/dce/_i_project_helper_8cs.html',1,'']]],
-  ['iprojectswitch_2ecs_39',['IProjectSwitch.cs',['../da/d4c/_i_project_switch_8cs.html',1,'']]],
-  ['iprojectswtich_40',['IProjectSwtich',['../db/dbc/interface_nu_get_switcher_1_1_core_1_1_switch_1_1_i_project_swtich.html',1,'NuGetSwitcher::Core::Switch']]]
+  ['getfileoption',['GetFileOption',['../d2/d4c/class_nu_get_switcher_1_1_option_1_1_package_option.html#a61a90b43ef87a4e948845c33621efcb4',1,'NuGetSwitcher::Option::PackageOption']]],
+  ['getincludeitems',['GetIncludeItems',['../d4/d17/interface_nu_get_switcher_1_1_option_1_1_i_package_option.html#af2e43b332c0020011dea7f18969db155',1,'NuGetSwitcher.Option.IPackageOption.GetIncludeItems()'],['../d2/d4c/class_nu_get_switcher_1_1_option_1_1_package_option.html#a70aeb988b99f4d499359eba61fb56b09',1,'NuGetSwitcher.Option.PackageOption.GetIncludeItems()']]],
+  ['getloadedproject',['GetLoadedProject',['../df/d78/interface_nu_get_switcher_1_1_helper_1_1_i_project_helper.html#a4f712b3d77c9f2b1b536f8ecfb3ac137',1,'NuGetSwitcher.Helper.IProjectHelper.GetLoadedProject()'],['../df/d78/interface_nu_get_switcher_1_1_helper_1_1_i_project_helper.html#a2966e5a5a13d19a4c00fd6123fe8a54a',1,'NuGetSwitcher.Helper.IProjectHelper.GetLoadedProject(IEnumerable&lt; string &gt; projects)'],['../df/d78/interface_nu_get_switcher_1_1_helper_1_1_i_project_helper.html#a6cb5811961f4cce449cfd5e0825446d7',1,'NuGetSwitcher.Helper.IProjectHelper.GetLoadedProject(string project)'],['../d3/d9f/class_nu_get_switcher_1_1_helper_1_1_project_helper.html#a5dc6951fbdf3c6146730d0a5005a0003',1,'NuGetSwitcher.Helper.ProjectHelper.GetLoadedProject()'],['../d3/d9f/class_nu_get_switcher_1_1_helper_1_1_project_helper.html#a52999c4ad90558e7ab1d1e452e39dbf3',1,'NuGetSwitcher.Helper.ProjectHelper.GetLoadedProject(IEnumerable&lt; string &gt; projects)'],['../d3/d9f/class_nu_get_switcher_1_1_helper_1_1_project_helper.html#a254ff415e6307712c9eb3d1e788b563c',1,'NuGetSwitcher.Helper.ProjectHelper.GetLoadedProject(string project)']]],
+  ['getlockfile',['GetLockFile',['../d8/d40/class_nu_get_switcher_1_1_helper_1_1_package_helper.html#aa99b18b3082aecfd6572ec39babcf80a',1,'NuGetSwitcher::Helper::PackageHelper']]],
+  ['getprojecthierarchyitem',['GetProjectHierarchyItem',['../d8/da1/class_nu_get_switcher_1_1_helper_1_1_message_helper.html#a1f005d0fd83ef3c290d273a9230a7542',1,'NuGetSwitcher::Helper::MessageHelper']]],
+  ['getprojecttarget',['GetProjectTarget',['../d8/d40/class_nu_get_switcher_1_1_helper_1_1_package_helper.html#a5d3cce958193428c03ff551984072e3e',1,'NuGetSwitcher::Helper::PackageHelper']]],
+  ['gettempitem',['GetTempItem',['../dc/d41/class_nu_get_switcher_1_1_core_1_1_switch_1_1_package_switch.html#a8bc56a4598c9e5d4c18121bb5b51516a',1,'NuGetSwitcher::Core::Switch::PackageSwitch']]],
+  ['globalcommand',['GlobalCommand',['../d0/d06/class_nu_get_switcher_1_1_menu_1_1_global_command.html',1,'NuGetSwitcher.Menu.GlobalCommand'],['../d0/d06/class_nu_get_switcher_1_1_menu_1_1_global_command.html#af60c46975972c1cb58c2ae41c01b740a',1,'NuGetSwitcher.Menu.GlobalCommand.GlobalCommand()']]],
+  ['globalcommand_2ecs',['GlobalCommand.cs',['../d0/d38/_global_command_8cs.html',1,'']]]
 ];

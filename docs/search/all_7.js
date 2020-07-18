@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['main_42',['Main',['../dd/d0f/class_nu_get_switcher_1_1_main.html',1,'NuGetSwitcher']]],
-  ['main_2ecs_43',['Main.cs',['../d2/d06/_main_8cs.html',1,'']]],
-  ['messagehelper_44',['MessageHelper',['../d8/da1/class_nu_get_switcher_1_1_helper_1_1_message_helper.html',1,'NuGetSwitcher.Helper.MessageHelper'],['../dc/d41/class_nu_get_switcher_1_1_core_1_1_switch_1_1_package_switch.html#a00a12b15cf9c32fabf1a3d57ffa3025d',1,'NuGetSwitcher.Core.Switch.PackageSwitch.MessageHelper()'],['../d2/d4b/class_nu_get_switcher_1_1_core_1_1_switch_1_1_project_switch.html#ac55d95131f57bf55af5ebe1b39ca8228',1,'NuGetSwitcher.Core.Switch.ProjectSwitch.MessageHelper()'],['../d0/d06/class_nu_get_switcher_1_1_menu_1_1_global_command.html#a473659926ddea4c6a3d3bb6983deaf0d',1,'NuGetSwitcher.Menu.GlobalCommand.MessageHelper()'],['../d1/d4f/interface_nu_get_switcher_1_1_menu_1_1_i_global_command.html#a45a03d5e9d76fcd376ecdce190d48a86',1,'NuGetSwitcher.Menu.IGlobalCommand.MessageHelper()'],['../d8/da1/class_nu_get_switcher_1_1_helper_1_1_message_helper.html#ab569028b57debfb3f7526d7757cf866b',1,'NuGetSwitcher.Helper.MessageHelper.MessageHelper()']]],
-  ['messagehelper_2ecs_45',['MessageHelper.cs',['../d2/dce/_message_helper_8cs.html',1,'']]],
-  ['msbproject_46',['MsbProject',['../d4/d57/class_nu_get_switcher_1_1_helper_1_1_entity_1_1_error_1_1_switcher_exception.html#a5e56f278c0a17f0afa4e054715148f05',1,'NuGetSwitcher.Helper.Entity.Error.SwitcherException.MsbProject()'],['../da/d6f/class_nu_get_switcher_1_1_helper_1_1_entity_1_1_project_reference.html#a8f47f84409e3cb78c11586df2ac32470',1,'NuGetSwitcher.Helper.Entity.ProjectReference.MsbProject()']]]
+  ['libraryswitch',['LibrarySwitch',['../d1/d8e/class_nu_get_switcher_1_1_core_1_1_switch_1_1_library_switch.html',1,'NuGetSwitcher.Core.Switch.LibrarySwitch'],['../d1/d8e/class_nu_get_switcher_1_1_core_1_1_switch_1_1_library_switch.html#aa74b6e887912a5ddac70475b9cb898e9',1,'NuGetSwitcher.Core.Switch.LibrarySwitch.LibrarySwitch()']]],
+  ['libraryswitch_2ecs',['LibrarySwitch.cs',['../da/df8/_library_switch_8cs.html',1,'']]],
+  ['lockfile',['LockFile',['../da/d6f/class_nu_get_switcher_1_1_helper_1_1_entity_1_1_project_reference.html#af9c51d6ad879d55717a67fba6d9d780d',1,'NuGetSwitcher::Helper::Entity::ProjectReference']]]
 ];

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['messagehelper_196',['MessageHelper',['../dc/d41/class_nu_get_switcher_1_1_core_1_1_switch_1_1_package_switch.html#a00a12b15cf9c32fabf1a3d57ffa3025d',1,'NuGetSwitcher.Core.Switch.PackageSwitch.MessageHelper()'],['../d2/d4b/class_nu_get_switcher_1_1_core_1_1_switch_1_1_project_switch.html#ac55d95131f57bf55af5ebe1b39ca8228',1,'NuGetSwitcher.Core.Switch.ProjectSwitch.MessageHelper()'],['../d0/d06/class_nu_get_switcher_1_1_menu_1_1_global_command.html#a473659926ddea4c6a3d3bb6983deaf0d',1,'NuGetSwitcher.Menu.GlobalCommand.MessageHelper()'],['../d1/d4f/interface_nu_get_switcher_1_1_menu_1_1_i_global_command.html#a45a03d5e9d76fcd376ecdce190d48a86',1,'NuGetSwitcher.Menu.IGlobalCommand.MessageHelper()']]],
-  ['msbproject_197',['MsbProject',['../d4/d57/class_nu_get_switcher_1_1_helper_1_1_entity_1_1_error_1_1_switcher_exception.html#a5e56f278c0a17f0afa4e054715148f05',1,'NuGetSwitcher.Helper.Entity.Error.SwitcherException.MsbProject()'],['../da/d6f/class_nu_get_switcher_1_1_helper_1_1_entity_1_1_project_reference.html#a8f47f84409e3cb78c11586df2ac32470',1,'NuGetSwitcher.Helper.Entity.ProjectReference.MsbProject()']]]
+  ['lockfile',['LockFile',['../da/d6f/class_nu_get_switcher_1_1_helper_1_1_entity_1_1_project_reference.html#af9c51d6ad879d55717a67fba6d9d780d',1,'NuGetSwitcher::Helper::Entity::ProjectReference']]]
 ];

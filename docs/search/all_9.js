@@ -1,14 +1,15 @@
 var searchData=
 [
-  ['packageoption_58',['PackageOption',['../d5/d43/class_nu_get_switcher_1_1_core_1_1_option_1_1_package_option.html',1,'NuGetSwitcher.Core.Option.PackageOption'],['../d8/dbf/class_nu_get_switcher_1_1_core_1_1_router_1_1_command_router.html#a424ae50df650b9c1a12343e8991c8768',1,'NuGetSwitcher.Core.Router.CommandRouter.PackageOption()']]],
-  ['packageoption_2ecs_59',['PackageOption.cs',['../dc/dc6/_package_option_8cs.html',1,'']]],
-  ['packagereference_60',['PackageReference',['../d9/d7b/namespace_nu_get_switcher_1_1_core_1_1_enum.html#ae5f32210cd3d62e54fd7ef94a2abb0c9ab01feaf7662a126c378ecc3927f73166',1,'NuGetSwitcher::Core::Enum']]],
-  ['packageswitch_61',['PackageSwitch',['../dc/d41/class_nu_get_switcher_1_1_core_1_1_switch_1_1_package_switch.html',1,'NuGetSwitcher.Core.Switch.PackageSwitch'],['../d8/dbf/class_nu_get_switcher_1_1_core_1_1_router_1_1_command_router.html#a2d48004c176821010ab3cdf9a479c0b3',1,'NuGetSwitcher.Core.Router.CommandRouter.PackageSwitch()'],['../dc/d41/class_nu_get_switcher_1_1_core_1_1_switch_1_1_package_switch.html#aaa08212d26d1053474b22b78f53d9481',1,'NuGetSwitcher.Core.Switch.PackageSwitch.PackageSwitch()']]],
-  ['packageswitch_2ecs_62',['PackageSwitch.cs',['../da/dc0/_package_switch_8cs.html',1,'']]],
-  ['projecthelper_63',['ProjectHelper',['../d3/d9f/class_nu_get_switcher_1_1_helper_1_1_project_helper.html',1,'NuGetSwitcher.Helper.ProjectHelper'],['../dc/d41/class_nu_get_switcher_1_1_core_1_1_switch_1_1_package_switch.html#a123c88852864b57cb3e86f39b164458a',1,'NuGetSwitcher.Core.Switch.PackageSwitch.ProjectHelper()'],['../d2/d4b/class_nu_get_switcher_1_1_core_1_1_switch_1_1_project_switch.html#a0611639462b0080a29e02baf324268c3',1,'NuGetSwitcher.Core.Switch.ProjectSwitch.ProjectHelper()'],['../d3/d9f/class_nu_get_switcher_1_1_helper_1_1_project_helper.html#ab215d44614c2d127a933390734dfb385',1,'NuGetSwitcher.Helper.ProjectHelper.ProjectHelper()']]],
-  ['projecthelper_2ecs_64',['ProjectHelper.cs',['../d6/d0e/_project_helper_8cs.html',1,'']]],
-  ['projectreference_65',['ProjectReference',['../da/d6f/class_nu_get_switcher_1_1_helper_1_1_entity_1_1_project_reference.html',1,'NuGetSwitcher.Helper.Entity.ProjectReference'],['../da/d6f/class_nu_get_switcher_1_1_helper_1_1_entity_1_1_project_reference.html#a802e6cfc1dd683dd95dcd5212a305e4f',1,'NuGetSwitcher.Helper.Entity.ProjectReference.ProjectReference()'],['../d9/d7b/namespace_nu_get_switcher_1_1_core_1_1_enum.html#ae5f32210cd3d62e54fd7ef94a2abb0c9acdc9c0c866abee8b47b2b76383f1cec2',1,'NuGetSwitcher.Core.Enum.ProjectReference()']]],
-  ['projectreference_2ecs_66',['ProjectReference.cs',['../de/d59/_project_reference_8cs.html',1,'']]],
-  ['projectswitch_67',['ProjectSwitch',['../d2/d4b/class_nu_get_switcher_1_1_core_1_1_switch_1_1_project_switch.html',1,'NuGetSwitcher.Core.Switch.ProjectSwitch'],['../d8/dbf/class_nu_get_switcher_1_1_core_1_1_router_1_1_command_router.html#a82a178615b08034bc3f7acf49e6c87cf',1,'NuGetSwitcher.Core.Router.CommandRouter.ProjectSwitch()'],['../d2/d4b/class_nu_get_switcher_1_1_core_1_1_switch_1_1_project_switch.html#aed93104f88252ef4c9012d952f654a72',1,'NuGetSwitcher.Core.Switch.ProjectSwitch.ProjectSwitch()']]],
-  ['projectswitch_2ecs_68',['ProjectSwitch.cs',['../d2/d56/_project_switch_8cs.html',1,'']]]
+  ['abstract',['Abstract',['../d0/db0/namespace_nu_get_switcher_1_1_abstract.html',1,'NuGetSwitcher']]],
+  ['core',['Core',['../d2/dd2/namespace_nu_get_switcher_1_1_core.html',1,'NuGetSwitcher']]],
+  ['entity',['Entity',['../da/d2b/namespace_nu_get_switcher_1_1_helper_1_1_entity.html',1,'NuGetSwitcher.Helper.Entity'],['../d3/d2c/namespace_nu_get_switcher_1_1_option_1_1_entity.html',1,'NuGetSwitcher.Option.Entity']]],
+  ['enum',['Enum',['../db/d4c/namespace_nu_get_switcher_1_1_helper_1_1_entity_1_1_enum.html',1,'NuGetSwitcher::Helper::Entity']]],
+  ['error',['Error',['../d3/d98/namespace_nu_get_switcher_1_1_helper_1_1_entity_1_1_error.html',1,'NuGetSwitcher::Helper::Entity']]],
+  ['helper',['Helper',['../da/dab/namespace_nu_get_switcher_1_1_helper.html',1,'NuGetSwitcher']]],
+  ['menu',['Menu',['../d6/d74/namespace_nu_get_switcher_1_1_menu.html',1,'NuGetSwitcher']]],
+  ['name',['Name',['../d0/d06/class_nu_get_switcher_1_1_menu_1_1_global_command.html#a15ad2527fd994c43937bcdc1b7e61485',1,'NuGetSwitcher.Menu.GlobalCommand.Name()'],['../d1/d4f/interface_nu_get_switcher_1_1_menu_1_1_i_global_command.html#aa5cb628e301416fa3262da206b6c458d',1,'NuGetSwitcher.Menu.IGlobalCommand.Name()']]],
+  ['nugetswitcher',['NuGetSwitcher',['../de/dc1/namespace_nu_get_switcher.html',1,'']]],
+  ['option',['Option',['../d7/d02/namespace_nu_get_switcher_1_1_option.html',1,'NuGetSwitcher']]],
+  ['router',['Router',['../d0/d17/namespace_nu_get_switcher_1_1_core_1_1_router.html',1,'NuGetSwitcher::Core']]],
+  ['switch',['Switch',['../d8/d91/namespace_nu_get_switcher_1_1_core_1_1_switch.html',1,'NuGetSwitcher::Core']]]
 ];

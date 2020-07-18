@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['projecthelper_199',['ProjectHelper',['../dc/d41/class_nu_get_switcher_1_1_core_1_1_switch_1_1_package_switch.html#a123c88852864b57cb3e86f39b164458a',1,'NuGetSwitcher.Core.Switch.PackageSwitch.ProjectHelper()'],['../d2/d4b/class_nu_get_switcher_1_1_core_1_1_switch_1_1_project_switch.html#a0611639462b0080a29e02baf324268c3',1,'NuGetSwitcher.Core.Switch.ProjectSwitch.ProjectHelper()']]]
+  ['name',['Name',['../d0/d06/class_nu_get_switcher_1_1_menu_1_1_global_command.html#a15ad2527fd994c43937bcdc1b7e61485',1,'NuGetSwitcher.Menu.GlobalCommand.Name()'],['../d1/d4f/interface_nu_get_switcher_1_1_menu_1_1_i_global_command.html#aa5cb628e301416fa3262da206b6c458d',1,'NuGetSwitcher.Menu.IGlobalCommand.Name()']]]
 ];

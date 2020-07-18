@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['referencetype_186',['ReferenceType',['../d9/d7b/namespace_nu_get_switcher_1_1_core_1_1_enum.html#ae5f32210cd3d62e54fd7ef94a2abb0c9',1,'NuGetSwitcher::Core::Enum']]]
+  ['referencetype',['ReferenceType',['../db/d4c/namespace_nu_get_switcher_1_1_helper_1_1_entity_1_1_enum.html#ab2363f0ef351943b3c925c69c50e85ca',1,'NuGetSwitcher::Helper::Entity::Enum']]]
 ];
