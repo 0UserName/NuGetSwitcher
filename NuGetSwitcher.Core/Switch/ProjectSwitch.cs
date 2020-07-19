@@ -57,7 +57,7 @@ namespace NuGetSwitcher.Core.Switch
                 include.Add(absolutePath);
             }
 
-            IterateAndExecute(ProjectHelper.GetLoadedProject(), Executor);
+            IterateAndExecute(references, Executor);
 
             IncludeProject(include.Except(references.Select(r => r.MsbProject.FullPath)));
         }
