@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <PackageManifest xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011" Version="2.0.0">
   <Metadata>
-    <Identity Id="DCB9FB28-5610-4A94-9471-4BF2D0556BC5" Version="0.4.2" Language="en-US" Publisher="0username" />
+    <Identity Id="DCB9FB28-5610-4A94-9471-4BF2D0556BC5" Version="0.5.0" Language="en-US" Publisher="0username" />
     <DisplayName>NuGetSwitcher</DisplayName>
     <Description xml:space="preserve">Extension that allows you to switch from NuGet packages to local projects and vice versa. The including of projects in the solution is also supported.</Description>
     <License>LICENSE.txt</License>
@@ -18,7 +18,8 @@
   </Dependencies>
 
   <Prerequisites>
-    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,17.0)" DisplayName="Visual Studio core editor" />
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor"  Version="[15.0,17.0)"          DisplayName="Visual Studio core editor"   />
+    <Prerequisite Id="Microsoft.NetCore.Component.DevelopmentTools" Version="[16.9.30803.67,17.0)" DisplayName=".NET Core development tools" />
   </Prerequisites>
 
   <Assets>

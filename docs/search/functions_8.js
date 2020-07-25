@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['route',['Route',['../d8/dbf/class_nu_get_switcher_1_1_core_1_1_router_1_1_command_router.html#ac064d8523b7635663742264257e1bf18',1,'NuGetSwitcher.Core.Router.CommandRouter.Route()'],['../d6/d5d/interface_nu_get_switcher_1_1_menu_1_1_i_command_router.html#aca371db3514baa36d5affd52793118fa',1,'NuGetSwitcher.Menu.ICommandRouter.Route()']]]
+  ['route_214',['Route',['../da/d9a/class_nu_get_switcher_1_1_core_1_1_command_1_1_command_provider.html#a263f11a5bfa04f1df06a1c06a030cc74',1,'NuGetSwitcher.Core.Command.CommandProvider.Route()'],['../de/dc1/interface_nu_get_switcher_1_1_interface_1_1_contract_1_1_i_command_provider.html#a18f1688ad631b7f0a352cc3559fbff8d',1,'NuGetSwitcher.Interface.Contract.ICommandProvider.Route()']]]
 ];

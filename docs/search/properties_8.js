@@ -1,8 +1,4 @@
 var searchData=
 [
-  ['tfi',['TFI',['../da/d6f/class_nu_get_switcher_1_1_helper_1_1_entity_1_1_project_reference.html#a9dd9de17a02d3b4e63a51f82a41dccf1',1,'NuGetSwitcher::Helper::Entity::ProjectReference']]],
-  ['tfm',['TFM',['../da/d6f/class_nu_get_switcher_1_1_helper_1_1_entity_1_1_project_reference.html#ac7f32edda748670971f328fe04888d1a',1,'NuGetSwitcher::Helper::Entity::ProjectReference']]],
-  ['tfms',['TFMs',['../da/d6f/class_nu_get_switcher_1_1_helper_1_1_entity_1_1_project_reference.html#adb67a3c0f9d25907f3b5a9e10ba87ea2',1,'NuGetSwitcher::Helper::Entity::ProjectReference']]],
-  ['tfv',['TFV',['../da/d6f/class_nu_get_switcher_1_1_helper_1_1_entity_1_1_project_reference.html#ad81424b3256686f5a9b3c6e245a206fb',1,'NuGetSwitcher::Helper::Entity::ProjectReference']]],
-  ['type',['Type',['../d0/d44/class_nu_get_switcher_1_1_abstract_1_1_abstract_switch.html#aace2fe82bb1a3ee0d34157ddcaa34e0b',1,'NuGetSwitcher::Abstract::AbstractSwitch']]]
+  ['solution_252',['Solution',['../d4/da1/interface_nu_get_switcher_1_1_interface_1_1_contract_1_1_i_project_provider.html#a74f850e73e3c6ba56bb8e5976f5ac123',1,'NuGetSwitcher.Interface.Contract.IProjectProvider.Solution()'],['../d9/db2/class_nu_get_switcher_1_1_v_s_i_x_service_1_1_project_1_1_vsix_project_provider.html#a631a43f62eca33e3d6c1c893923ee633',1,'NuGetSwitcher.VSIXService.Project.VsixProjectProvider.Solution()']]]
 ];

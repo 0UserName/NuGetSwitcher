@@ -1,17 +1,11 @@
 ﻿using Microsoft.Build.Evaluation;
 
-using Microsoft.VisualStudio.Shell;
+using NuGetSwitcher.Core.Abstract;
 
-using NuGetSwitcher.Abstract;
+using NuGetSwitcher.Interface.Contract;
+using NuGetSwitcher.Interface.Entity;
+using NuGetSwitcher.Interface.Entity.Enum;
 
-using NuGetSwitcher.Helper;
-using NuGetSwitcher.Helper.Entity;
-using NuGetSwitcher.Helper.Entity.Enum;
-using NuGetSwitcher.Helper.Entity.Error;
-
-using NuGetSwitcher.Option;
-
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -21,7 +15,7 @@ namespace NuGetSwitcher.Core.Switch
 {
     public class PackageSwitch : AbstractSwitch
     {
-        public PackageSwitch(bool isVSIX, ReferenceType type, IPackageOption packageOption, IProjectHelper projectHelper, IMessageHelper messageHelper) : base(isVSIX, type, packageOption, projectHelper, messageHelper)
+        public PackageSwitch(ReferenceType type, IOptionProvider optionProvider, IProjectProvider projectHelper, IMessageProvider messageHelper) : base(type, optionProvider, projectHelper, messageHelper)
         { }
 
         /// <summary>
@@ -30,11 +24,11 @@ namespace NuGetSwitcher.Core.Switch
         /// </summary>
         /// 
         /// <exception cref="SwitcherException"/>
-        public override void Switch()
+        public override IEnumerable<string> Switch()
         {
-            MessageHelper.Clear();
+            MessageProvider.Clear();
 
-            foreach (ProjectReference reference in ProjectHelper.GetLoadedProject())
+            foreach (IProjectReference reference in ProjectProvider.GetLoadedProject())
             {
                 SwitchDependency(reference, ReferenceType.Reference);
                 SwitchDependency(reference, ReferenceType.ProjectReference);
@@ -42,7 +36,7 @@ namespace NuGetSwitcher.Core.Switch
                 reference.Save();
             }
 
-            CleanSolution();
+            return default;
         }
 
         /// <summary>
@@ -52,7 +46,7 @@ namespace NuGetSwitcher.Core.Switch
         /// and FrameworkAssemblies sections
         /// of the lock file.
         /// </summary>
-        public virtual void SwitchDependency(ProjectReference reference, ReferenceType type)
+        public virtual void SwitchDependency(IProjectReference reference, ReferenceType type)
         {
             foreach (ProjectItem item in GetTempItem(reference, type))
             {
@@ -72,7 +66,7 @@ namespace NuGetSwitcher.Core.Switch
                     item.ItemType = Type.ToString();
                 }
 
-                MessageHelper.AddMessage(reference.DteProject.UniqueName, $"Dependency: { Path.GetFileNameWithoutExtension(item.EvaluatedInclude) } has been switched back. Type: { Type }", TaskErrorCategory.Message);
+                MessageProvider.AddMessage(reference.UniqueName, $"Dependency: { Path.GetFileNameWithoutExtension(item.EvaluatedInclude) } has been switched back. Type: { Type }", MessageCategory.ME);
             }
         }
 
@@ -81,46 +75,9 @@ namespace NuGetSwitcher.Core.Switch
         /// passed type and marked with 
         /// the Temp attribute.
         /// </summary>
-        public virtual IReadOnlyList<ProjectItem> GetTempItem(ProjectReference reference, ReferenceType type)
+        protected virtual IReadOnlyList<ProjectItem> GetTempItem(IProjectReference reference, ReferenceType type)
         {
             return reference.MsbProject.GetItems(type.ToString()).Where(i => i.HasMetadata("Temp")).ToImmutableList();
-        }
-
-        /// <summary>
-        /// Deletes temporary projects
-        /// from the solution.
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// See: <seealso cref="ProjectReference.IsTemp"/>
-        /// </remarks>
-        /// 
-        /// <remarks>
-        /// Uses DTE - only works from Visual Studio.
-        /// </remarks>
-        private void CleanSolution()
-        {
-            if (IsVSIX)
-            {
-                try
-                {
-                    foreach (ProjectReference reference in ProjectHelper.GetLoadedProject())
-                    {
-                        if (reference.IsTemp)
-                        {
-                            DTE.Solution.Remove(reference.DteProject);
-                        }
-                    }
-                }
-                catch (Exception exception)
-                {
-                    MessageHelper.AddMessage(exception);
-                }
-                finally
-                {
-                    DTE.Solution.SaveAs(DTE.Solution.FileName);
-                }
-            }
         }
     }
 }

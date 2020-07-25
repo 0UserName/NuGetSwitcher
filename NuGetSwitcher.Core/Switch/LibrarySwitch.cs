@@ -1,20 +1,20 @@
 ﻿using NuGet.ProjectModel;
 
-using NuGetSwitcher.Helper;
-using NuGetSwitcher.Helper.Entity;
-using NuGetSwitcher.Helper.Entity.Enum;
-using NuGetSwitcher.Helper.Entity.Error;
+using NuGetSwitcher.Interface.Contract;
 
-using NuGetSwitcher.Option;
+using NuGetSwitcher.Interface.Entity;
+using NuGetSwitcher.Interface.Entity.Enum;
+using NuGetSwitcher.Interface.Entity.Error;
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace NuGetSwitcher.Core.Switch
 {
     public class LibrarySwitch : ProjectSwitch
     {
-        public LibrarySwitch(bool isVSIX, ReferenceType type, IPackageOption packageOption, IProjectHelper projectHelper, IMessageHelper messageHelper) : base(isVSIX, type, packageOption, projectHelper, messageHelper)
+        public LibrarySwitch(ReferenceType type, IOptionProvider optionProvider, IProjectProvider projectHelper, IMessageProvider messageHelper) : base(type, optionProvider, projectHelper, messageHelper)
         { }
 
         /// <summary>
@@ -28,15 +28,17 @@ namespace NuGetSwitcher.Core.Switch
         /// <exception cref="FileNotFoundException"/>
         /// 
         /// <exception cref="ArgumentException">
-        public override void Switch()
+        public override IEnumerable<string> Switch()
         {
-            void Executor(ProjectReference reference, LockFileTargetLibrary library, string absolutePath)
+            void Executor(IProjectReference reference, LockFileTargetLibrary library, string absolutePath)
             {
                 SwitchSysDependency(reference, library);
                 SwitchPkgDependency(reference, library, absolutePath);
             }
 
-            IterateAndExecute(ProjectHelper.GetLoadedProject(), Executor);
+            IterateAndExecute(ProjectProvider.GetLoadedProject(), Executor);
+
+            return default;
         }
     }
 }

@@ -79,25 +79,21 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NuGetSwitcher.Abstract\NuGetSwitcher.Abstract.csproj">
-      <Project>{55e0412b-954f-44bf-9fb8-a1a534de287a}</Project>
-      <Name>NuGetSwitcher.Abstract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NuGetSwitcher.Helper\NuGetSwitcher.Helper.csproj">
-      <Project>{7fff3e33-545c-4fad-a3f0-806819b0f1cd}</Project>
-      <Name>NuGetSwitcher.Helper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NuGetSwitcher.Menu\NuGetSwitcher.Menu.csproj">
-      <Project>{2D70F76A-789A-433D-8FD1-71F2B3FDE233}</Project>
-      <Name>NuGetSwitcher.Menu</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NuGetSwitcher.Option\NuGetSwitcher.Option.csproj">
-      <Project>{860d1167-d3bb-43b9-8ee3-251f4a212d11}</Project>
-      <Name>NuGetSwitcher.Option</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NuGetSwitcher.Core\NuGetSwitcher.Core.csproj">
       <Project>{67351706-56b0-47d4-891e-5bf7f793e7da}</Project>
       <Name>NuGetSwitcher.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NuGetSwitcher.Interface\NuGetSwitcher.Interface.csproj">
+      <Project>{ce22fe09-7e92-4778-ab22-66a8b3d79117}</Project>
+      <Name>NuGetSwitcher.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NuGetSwitcher.VSIXMenu\NuGetSwitcher.VSIXMenu.csproj">
+      <Project>{2d70f76a-789a-433d-8fd1-71f2b3fde233}</Project>
+      <Name>NuGetSwitcher.VSIXMenu</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NuGetSwitcher.VSIXService\NuGetSwitcher.VSIXService.csproj">
+      <Project>{ecebf537-a813-4da1-acf9-b4b1e087eba4}</Project>
+      <Name>NuGetSwitcher.VSIXService</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -119,7 +115,7 @@
     <EmbeddedResource Include="Stub.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Stub.Designer.cs</LastGenOutput>
-		<MergeWithCTO>true</MergeWithCTO>
+      <MergeWithCTO>true</MergeWithCTO>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -132,17 +128,18 @@
   </Target>
   -->
   <Target Name="IncludeNuGetPackageReferences" AfterTargets="GetVsixSourceItems">
-  	<ItemGroup>
-  	  <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Frameworks'"              />
-  	  <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Common'"                  />
-  	  <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Configuration'"           />
-  	  <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.DependencyResolver.Core'" />
-  	  <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.LibraryModel'"            />
-  	  <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Packaging.Core'"          />
-  	  <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Packaging'"               />
-  	  <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.ProjectModel'"            />
-  	  <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Protocol'"                />
-  	  <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Versioning'"              />
-  	</ItemGroup>
+    <ItemGroup>
+      <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Frameworks'"              />
+      <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Common'"                  />
+      <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Configuration'"           />
+      <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.DependencyResolver.Core'" />
+      <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.LibraryModel'"            />
+      <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Packaging.Core'"          />
+      <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Packaging'"               />
+      <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.ProjectModel'"            />
+      <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Protocol'"                />
+      <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Versioning'"              />
+      <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'CliWrap'"                       />
+    </ItemGroup>
   </Target>
 </Project>

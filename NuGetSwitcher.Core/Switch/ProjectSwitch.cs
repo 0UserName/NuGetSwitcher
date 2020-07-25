@@ -1,17 +1,16 @@
-﻿using Microsoft.Build.Evaluation;
+﻿using CliWrap;
+using CliWrap.Buffered;
 
-using Microsoft.VisualStudio.Shell;
+using Microsoft.Build.Evaluation;
 
 using NuGet.ProjectModel;
 
-using NuGetSwitcher.Abstract;
+using NuGetSwitcher.Core.Abstract;
 
-using NuGetSwitcher.Helper;
-using NuGetSwitcher.Helper.Entity;
-using NuGetSwitcher.Helper.Entity.Enum;
-using NuGetSwitcher.Helper.Entity.Error;
-
-using NuGetSwitcher.Option;
+using NuGetSwitcher.Interface.Contract;
+using NuGetSwitcher.Interface.Entity;
+using NuGetSwitcher.Interface.Entity.Enum;
+using NuGetSwitcher.Interface.Entity.Error;
 
 using System;
 using System.Collections.Generic;
@@ -22,7 +21,7 @@ namespace NuGetSwitcher.Core.Switch
 {
     public class ProjectSwitch : AbstractSwitch
     {
-        public ProjectSwitch(bool isVSIX, ReferenceType type, IPackageOption packageOption, IProjectHelper projectHelper, IMessageHelper messageHelper) : base(isVSIX, type, packageOption, projectHelper, messageHelper)
+        public ProjectSwitch(ReferenceType type, IOptionProvider optionProvider, IProjectProvider projectHelper, IMessageProvider messageHelper) : base(type, optionProvider, projectHelper, messageHelper)
         { }
 
         /// <summary>
@@ -42,24 +41,27 @@ namespace NuGetSwitcher.Core.Switch
         /// the work will be included in 
         /// the solution.
         /// </remarks>
-        public override void Switch()
+        public override IEnumerable<string> Switch()
         {
-            IEnumerable<ProjectReference> references = ProjectHelper.GetLoadedProject();
+            HashSet<string> output = new
+            HashSet<string>
+            ();
 
-            HashSet<string> include = new
-            HashSet<string>();
+            IEnumerable<IProjectReference> references = ProjectProvider.GetLoadedProject();
 
-            void Executor(ProjectReference reference, LockFileTargetLibrary library, string absolutePath)
+            void Executor(IProjectReference reference, LockFileTargetLibrary library, string absolutePath)
             {
                 SwitchSysDependency(reference, library);
                 SwitchPkgDependency(reference, library, absolutePath);
 
-                include.Add(absolutePath);
+                output.Add(absolutePath);
             }
 
             IterateAndExecute(references, Executor);
 
-            IncludeProject(include.Except(references.Select(r => r.MsbProject.FullPath)));
+            AddToSolution(ProjectProvider.Solution, output);
+
+            return output;
         }
 
         /// <summary>
@@ -67,10 +69,11 @@ namespace NuGetSwitcher.Core.Switch
         /// listed in the FrameworkAssemblies section
         /// of the lock file.
         /// </summary>
-        public virtual void SwitchSysDependency(ProjectReference reference, LockFileTargetLibrary library)
+        public virtual void SwitchSysDependency(IProjectReference reference, LockFileTargetLibrary library)
         {
             Dictionary<string, string> metadata = new
-            Dictionary<string, string>(1);
+            Dictionary<string, string>
+            (1);
 
             foreach (string assembly in library.FrameworkAssemblies)
             {
@@ -89,7 +92,7 @@ namespace NuGetSwitcher.Core.Switch
         /// <remarks>
         /// Implicit dependencies mean transitive.
         /// </remarks>
-        public virtual void SwitchPkgDependency(ProjectReference reference, LockFileTargetLibrary library, string absolutePath)
+        public virtual void SwitchPkgDependency(IProjectReference reference, LockFileTargetLibrary library, string absolutePath)
         {
             /*
              * References can be represented by several values in
@@ -126,50 +129,43 @@ namespace NuGetSwitcher.Core.Switch
                     item.UnevaluatedInclude = absolutePath;
                 }
 
-                MessageHelper.AddMessage(reference.DteProject.UniqueName, $"Dependency: {library.Name } has been switched. Type: { Type }", TaskErrorCategory.Message);
+                MessageProvider.AddMessage(reference.MsbProject.FullPath, $"Dependency: {library.Name } has been switched. Type: { Type }", MessageCategory.ME);
             }
         }
 
-        /// <summary>
-        /// Includes a set of passed 
-        /// projects in the solution.
-        /// </summary>
-        /// 
-        /// <param name="projects">
-        /// Absolute paths to project
-        /// files without duplicates.
-        /// </param>
-        /// 
-        /// <remarks>
-        /// Uses DTE - only works from Visual Studio.
-        /// </remarks>
-        private void IncludeProject(IEnumerable<string> projects)
+        protected virtual void AddToSolution(string solution, IEnumerable<string> projects)
         {
-            /*
-             * I don’t know how, but the AddFromFile method depends
-             * on the GPC, therefore, to avoid errors, all projects 
-             * are forcibly unloaded.
-             */
+            CliWrap.Command command = Cli.Wrap("dotnet")
 
-            if (IsVSIX)
+                .WithWorkingDirectory(Path.GetDirectoryName(solution))
+
+                .WithArguments(
+
+                args => args.Add("sln")
+                       .Add(solution)
+                       .Add("add")
+                       .Add(projects)
+
+                       /*
+                        * Since .NET Core 3.0 SDK.
+                        * 
+                        * Destination solution folder 
+                        * path to add the projects to.
+                        */
+
+                       .Add("--solution-folder")
+                       .Add("Temporary"));
+
+            BufferedCommandResult result = command.ExecuteBufferedAsync().GetAwaiter().GetResult();
+
+            if (!string.IsNullOrWhiteSpace(result.StandardOutput))
             {
-                ProjectHelper.UnloadProject();
+                MessageProvider.AddMessage(result.StandardOutput, MessageCategory.ME);
+            }
 
-                try
-                {
-                    foreach (string project in projects)
-                    {
-                        DTE.Solution.AddFromFile(project, false);
-                    }
-                }
-                catch (Exception exception)
-                {
-                    MessageHelper.AddMessage(exception);
-                }
-                finally
-                {
-                    DTE.Solution.SaveAs(DTE.Solution.FileName);
-                }
+            if (!string.IsNullOrWhiteSpace(result.StandardOutput))
+            {
+                MessageProvider.AddMessage(result.StandardError , MessageCategory.ER);
             }
         }
     }

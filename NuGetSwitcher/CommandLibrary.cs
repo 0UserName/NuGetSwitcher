@@ -1,6 +1,6 @@
-﻿using NuGetSwitcher.Helper;
+﻿using NuGetSwitcher.Interface.Contract;
 
-using NuGetSwitcher.Menu;
+using NuGetSwitcher.VSIXMenu;
 
 using System;
 using System.ComponentModel.Design;
@@ -9,7 +9,7 @@ namespace NuGetSwitcher
 {
     internal sealed class CommandLibrary : GlobalCommand
     {
-        public CommandLibrary(ICommandRouter commandRouter, IMessageHelper messageHelper) : base(commandRouter, messageHelper)
+        public CommandLibrary(ICommandProvider commandRouter, IMessageProvider messageProvider) : base(commandRouter, messageProvider)
         { }
 
         /// <summary>
@@ -19,11 +19,11 @@ namespace NuGetSwitcher
         {
             try
             {
-                CommandRouter.Route(Name);
+                CommandProvider.Route(Name);
             }
             catch (Exception exception)
             {
-                MessageHelper.AddMessage(exception);
+                MessageProvider.AddMessage(exception);
             }
         }
     }

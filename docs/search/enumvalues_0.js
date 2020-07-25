@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['packagereference',['PackageReference',['../db/d4c/namespace_nu_get_switcher_1_1_helper_1_1_entity_1_1_enum.html#ab2363f0ef351943b3c925c69c50e85caab01feaf7662a126c378ecc3927f73166',1,'NuGetSwitcher::Helper::Entity::Enum']]],
-  ['projectreference',['ProjectReference',['../db/d4c/namespace_nu_get_switcher_1_1_helper_1_1_entity_1_1_enum.html#ab2363f0ef351943b3c925c69c50e85caacdc9c0c866abee8b47b2b76383f1cec2',1,'NuGetSwitcher::Helper::Entity::Enum']]]
+  ['er_229',['ER',['../d9/df8/namespace_nu_get_switcher_1_1_interface_1_1_entity_1_1_enum.html#acdfda34766f5cec25d9a7ebc12c4a63ca1bd3a0484883ca6deaada8395a8f6e85',1,'NuGetSwitcher::Interface::Entity::Enum']]]
 ];

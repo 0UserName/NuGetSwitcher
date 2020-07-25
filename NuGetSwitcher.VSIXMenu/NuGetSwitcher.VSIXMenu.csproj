@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Design" Version="4.0.0" />
+
+    <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" Version="15.0.26606" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NuGetSwitcher.Interface\NuGetSwitcher.Interface.csproj" />
+  </ItemGroup>
+
+</Project>

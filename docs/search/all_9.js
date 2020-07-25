@@ -1,15 +1,19 @@
 var searchData=
 [
-  ['abstract',['Abstract',['../d0/db0/namespace_nu_get_switcher_1_1_abstract.html',1,'NuGetSwitcher']]],
-  ['core',['Core',['../d2/dd2/namespace_nu_get_switcher_1_1_core.html',1,'NuGetSwitcher']]],
-  ['entity',['Entity',['../da/d2b/namespace_nu_get_switcher_1_1_helper_1_1_entity.html',1,'NuGetSwitcher.Helper.Entity'],['../d3/d2c/namespace_nu_get_switcher_1_1_option_1_1_entity.html',1,'NuGetSwitcher.Option.Entity']]],
-  ['enum',['Enum',['../db/d4c/namespace_nu_get_switcher_1_1_helper_1_1_entity_1_1_enum.html',1,'NuGetSwitcher::Helper::Entity']]],
-  ['error',['Error',['../d3/d98/namespace_nu_get_switcher_1_1_helper_1_1_entity_1_1_error.html',1,'NuGetSwitcher::Helper::Entity']]],
-  ['helper',['Helper',['../da/dab/namespace_nu_get_switcher_1_1_helper.html',1,'NuGetSwitcher']]],
-  ['menu',['Menu',['../d6/d74/namespace_nu_get_switcher_1_1_menu.html',1,'NuGetSwitcher']]],
-  ['name',['Name',['../d0/d06/class_nu_get_switcher_1_1_menu_1_1_global_command.html#a15ad2527fd994c43937bcdc1b7e61485',1,'NuGetSwitcher.Menu.GlobalCommand.Name()'],['../d1/d4f/interface_nu_get_switcher_1_1_menu_1_1_i_global_command.html#aa5cb628e301416fa3262da206b6c458d',1,'NuGetSwitcher.Menu.IGlobalCommand.Name()']]],
-  ['nugetswitcher',['NuGetSwitcher',['../de/dc1/namespace_nu_get_switcher.html',1,'']]],
-  ['option',['Option',['../d7/d02/namespace_nu_get_switcher_1_1_option.html',1,'NuGetSwitcher']]],
-  ['router',['Router',['../d0/d17/namespace_nu_get_switcher_1_1_core_1_1_router.html',1,'NuGetSwitcher::Core']]],
-  ['switch',['Switch',['../d8/d91/namespace_nu_get_switcher_1_1_core_1_1_switch.html',1,'NuGetSwitcher::Core']]]
+  ['abstract_62',['Abstract',['../dd/d56/namespace_nu_get_switcher_1_1_core_1_1_abstract.html',1,'NuGetSwitcher::Core']]],
+  ['command_63',['Command',['../d3/dba/namespace_nu_get_switcher_1_1_core_1_1_command.html',1,'NuGetSwitcher::Core']]],
+  ['contract_64',['Contract',['../d3/dcc/namespace_nu_get_switcher_1_1_interface_1_1_contract.html',1,'NuGetSwitcher::Interface']]],
+  ['core_65',['Core',['../d2/dd2/namespace_nu_get_switcher_1_1_core.html',1,'NuGetSwitcher']]],
+  ['entity_66',['Entity',['../d0/d69/namespace_nu_get_switcher_1_1_core_1_1_option_1_1_entity.html',1,'NuGetSwitcher.Core.Option.Entity'],['../d6/d47/namespace_nu_get_switcher_1_1_interface_1_1_entity.html',1,'NuGetSwitcher.Interface.Entity'],['../d3/d3d/namespace_nu_get_switcher_1_1_v_s_i_x_service_1_1_project_1_1_entity.html',1,'NuGetSwitcher.VSIXService.Project.Entity']]],
+  ['enum_67',['Enum',['../d9/df8/namespace_nu_get_switcher_1_1_interface_1_1_entity_1_1_enum.html',1,'NuGetSwitcher::Interface::Entity']]],
+  ['error_68',['Error',['../d8/d10/namespace_nu_get_switcher_1_1_interface_1_1_entity_1_1_error.html',1,'NuGetSwitcher::Interface::Entity']]],
+  ['interface_69',['Interface',['../d3/dc6/namespace_nu_get_switcher_1_1_interface.html',1,'NuGetSwitcher']]],
+  ['message_70',['Message',['../d2/d9b/namespace_nu_get_switcher_1_1_v_s_i_x_service_1_1_message.html',1,'NuGetSwitcher::VSIXService']]],
+  ['name_71',['Name',['../d6/d56/class_nu_get_switcher_1_1_v_s_i_x_menu_1_1_global_command.html#a6f375918241fad3259ac12c6857d1588',1,'NuGetSwitcher.VSIXMenu.GlobalCommand.Name()'],['../d6/df9/interface_nu_get_switcher_1_1_v_s_i_x_menu_1_1_i_global_command.html#a1bb9b5944fef59c828aac11b9b9d138d',1,'NuGetSwitcher.VSIXMenu.IGlobalCommand.Name()']]],
+  ['nugetswitcher_72',['NuGetSwitcher',['../de/dc1/namespace_nu_get_switcher.html',1,'']]],
+  ['option_73',['Option',['../d3/d5a/namespace_nu_get_switcher_1_1_core_1_1_option.html',1,'NuGetSwitcher.Core.Option'],['../dd/d48/namespace_nu_get_switcher_1_1_v_s_i_x_service_1_1_option.html',1,'NuGetSwitcher.VSIXService.Option']]],
+  ['project_74',['Project',['../da/d98/namespace_nu_get_switcher_1_1_v_s_i_x_service_1_1_project.html',1,'NuGetSwitcher::VSIXService']]],
+  ['switch_75',['Switch',['../d8/d91/namespace_nu_get_switcher_1_1_core_1_1_switch.html',1,'NuGetSwitcher::Core']]],
+  ['vsixmenu_76',['VSIXMenu',['../d5/d11/namespace_nu_get_switcher_1_1_v_s_i_x_menu.html',1,'NuGetSwitcher']]],
+  ['vsixservice_77',['VSIXService',['../dc/d5d/namespace_nu_get_switcher_1_1_v_s_i_x_service.html',1,'NuGetSwitcher']]]
 ];

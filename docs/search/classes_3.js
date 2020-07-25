@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['globalcommand',['GlobalCommand',['../d0/d06/class_nu_get_switcher_1_1_menu_1_1_global_command.html',1,'NuGetSwitcher::Menu']]]
+  ['globalcommand_125',['GlobalCommand',['../d6/d56/class_nu_get_switcher_1_1_v_s_i_x_menu_1_1_global_command.html',1,'NuGetSwitcher::VSIXMenu']]]
 ];

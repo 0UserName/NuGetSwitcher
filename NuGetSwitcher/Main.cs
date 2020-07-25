@@ -1,17 +1,16 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-using NuGetSwitcher.Abstract;
-
-using NuGetSwitcher.Core.Router;
+using NuGetSwitcher.Core.Abstract;
+using NuGetSwitcher.Core.Command;
+using NuGetSwitcher.Core.Option;
 using NuGetSwitcher.Core.Switch;
 
-using NuGetSwitcher.Helper;
-using NuGetSwitcher.Helper.Entity.Enum;
-
-using NuGetSwitcher.Menu;
-
-using NuGetSwitcher.Option;
+using NuGetSwitcher.Interface.Contract;
+using NuGetSwitcher.Interface.Entity.Enum;
+using NuGetSwitcher.VSIXService.Message;
+using NuGetSwitcher.VSIXService.Option;
+using NuGetSwitcher.VSIXService.Project;
 
 using System;
 using System.ComponentModel.Design;
@@ -23,7 +22,7 @@ namespace NuGetSwitcher
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid("fdb266b8-b91a-4bfd-b391-a4e013c176e2")]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideOptionPage(typeof(PackageOption), "NuGet Switcher", "Common", 0, 0, true)]
+    [ProvideOptionPage(typeof(VsixPackageOption), "NuGet Switcher", "Common", 0, 0, true)]
     public sealed class Main : AsyncPackage
     {
         /// <summary>
@@ -59,22 +58,24 @@ namespace NuGetSwitcher
 
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            IMessageHelper messageHelper = new MessageHelper(vsSolution, new ErrorListProvider(this));
-            IProjectHelper projectHelper = new ProjectHelper();
+            IMessageProvider messageProvider = new VsixMessageProvider(vsSolution, new ErrorListProvider(this));
+            IProjectProvider projectProvider = new VsixProjectProvider();
 
-            IPackageOption packageOption = (PackageOption)GetDialogPage(typeof(PackageOption));
+            IOptionProvider optionProvider = new OptionProvider(messageProvider);
 
-            ((PackageOption)packageOption).Init(messageHelper);
+            IOptionProvider packageOption = (VsixPackageOption)GetDialogPage(typeof(VsixPackageOption));
 
-            AbstractSwitch projectSwtich = new ProjectSwitch(true, ReferenceType.ProjectReference, packageOption, projectHelper, messageHelper);
-            AbstractSwitch packageSwitch = new PackageSwitch(true, ReferenceType.PackageReference, packageOption, projectHelper, messageHelper);
-            AbstractSwitch librarySwitch = new LibrarySwitch(true, ReferenceType.Reference, packageOption, projectHelper, messageHelper);
+            ((VsixPackageOption)packageOption).Init(optionProvider);
 
-            ICommandRouter commandRouter = new CommandRouter(packageOption, projectSwtich, packageSwitch, librarySwitch);
+            AbstractSwitch projectSwtich = new ProjectSwitch(ReferenceType.ProjectReference, optionProvider, projectProvider, messageProvider);
+            AbstractSwitch packageSwitch = new PackageSwitch(ReferenceType.PackageReference, optionProvider, projectProvider, messageProvider);
+            AbstractSwitch librarySwitch = new LibrarySwitch(ReferenceType.Reference       , optionProvider, projectProvider, messageProvider);
 
-            new CommandProject(commandRouter, messageHelper).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0100);
-            new CommandPackage(commandRouter, messageHelper).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0200);
-            new CommandLibrary(commandRouter, messageHelper).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0300);
+            ICommandProvider commandRouter = new CommandProvider(optionProvider, projectSwtich, packageSwitch, librarySwitch);
+
+            new CommandProject(commandRouter, messageProvider).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0100);
+            new CommandPackage(commandRouter, messageProvider).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0200);
+            new CommandLibrary(commandRouter, messageProvider).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0300);
         }
     }
 }

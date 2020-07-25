@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['switcherexception_2ecs',['SwitcherException.cs',['../d6/de1/_switcher_exception_8cs.html',1,'']]],
-  ['switcherfilenotfoundexception_2ecs',['SwitcherFileNotFoundException.cs',['../d5/d93/_switcher_file_not_found_exception_8cs.html',1,'']]],
-  ['switcherinvalidoperationexception_2ecs',['SwitcherInvalidOperationException.cs',['../d9/dc0/_switcher_invalid_operation_exception_8cs.html',1,'']]]
+  ['readme_2emd_179',['README.md',['../d9/dd6/_r_e_a_d_m_e_8md.html',1,'']]],
+  ['referencetype_2ecs_180',['ReferenceType.cs',['../d9/dc4/_reference_type_8cs.html',1,'']]]
 ];
