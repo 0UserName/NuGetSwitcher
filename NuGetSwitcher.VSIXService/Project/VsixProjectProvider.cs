@@ -43,7 +43,8 @@ namespace NuGetSwitcher.VSIXService.Project
         public virtual IEnumerable<IProjectReference> GetLoadedProject()
         {
             List<IProjectReference> projects = new
-            List<IProjectReference>(30);
+            List<IProjectReference>
+            (30);
 
             foreach (EnvDTE.Project dteProject in DTE.Solution.Projects)
             {
