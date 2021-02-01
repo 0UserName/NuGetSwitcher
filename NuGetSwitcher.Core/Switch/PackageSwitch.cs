@@ -1,10 +1,13 @@
-﻿using Microsoft.Build.Evaluation;
+﻿using CliWrap.Builders;
+
+using Microsoft.Build.Evaluation;
 
 using NuGetSwitcher.Core.Abstract;
 
 using NuGetSwitcher.Interface.Contract;
 using NuGetSwitcher.Interface.Entity;
 using NuGetSwitcher.Interface.Entity.Enum;
+using NuGetSwitcher.Interface.Entity.Error;
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -26,17 +29,23 @@ namespace NuGetSwitcher.Core.Switch
         /// <exception cref="SwitcherException"/>
         public override IEnumerable<string> Switch()
         {
+            HashSet<string> output = new
+            HashSet<string>
+            ();
+
             MessageProvider.Clear();
 
             foreach (IProjectReference reference in ProjectProvider.GetLoadedProject())
             {
-                SwitchDependency(reference, ReferenceType.Reference);
-                SwitchDependency(reference, ReferenceType.ProjectReference);
+                output.UnionWith(SwitchDependency(reference, ReferenceType.Reference));
+                output.UnionWith(SwitchDependency(reference, ReferenceType.ProjectReference));
 
                 reference.Save();
             }
 
-            return default;
+            RemoveFromSolution(ProjectProvider.Solution, output);
+
+            return output;
         }
 
         /// <summary>
@@ -46,10 +55,19 @@ namespace NuGetSwitcher.Core.Switch
         /// and FrameworkAssemblies sections
         /// of the lock file.
         /// </summary>
-        public virtual void SwitchDependency(IProjectReference reference, ReferenceType type)
+        public virtual IEnumerable<string> SwitchDependency(IProjectReference reference, ReferenceType type)
         {
+            HashSet<string> output = new
+            HashSet<string>
+            ();
+
             foreach (ProjectItem item in GetTempItem(reference, type))
             {
+                if (type == ReferenceType.ProjectReference)
+                {
+                    output.Add(item.EvaluatedInclude);
+                }
+
                 // Implicit.
                 if (!item.HasMetadata("Version"))
                 {
@@ -68,6 +86,8 @@ namespace NuGetSwitcher.Core.Switch
 
                 MessageProvider.AddMessage(reference.UniqueName, $"Dependency: { Path.GetFileNameWithoutExtension(item.EvaluatedInclude) } has been switched back. Type: { Type }", MessageCategory.ME);
             }
+
+            return output;
         }
 
         /// <summary>
@@ -78,6 +98,14 @@ namespace NuGetSwitcher.Core.Switch
         protected virtual IReadOnlyList<ProjectItem> GetTempItem(IProjectReference reference, ReferenceType type)
         {
             return reference.MsbProject.GetItems(type.ToString()).Where(i => i.HasMetadata("Temp")).ToImmutableList();
+        }
+
+        /// <summary>
+        /// Removes a project or multiple projects from the solution file.
+        /// </summary>
+        protected virtual void RemoveFromSolution(string solution, IEnumerable<string> projects)
+        {
+            base.SlnAction(solution, projects, new ArgumentsBuilder().Add("remove").Add(projects));
         }
     }
 }
