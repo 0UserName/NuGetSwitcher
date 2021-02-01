@@ -1,4 +1,8 @@
-﻿using NuGet.Common;
+﻿using CliWrap;
+using CliWrap.Buffered;
+using CliWrap.Builders;
+
+using NuGet.Common;
 using NuGet.Frameworks;
 using NuGet.ProjectModel;
 
@@ -183,6 +187,37 @@ namespace NuGetSwitcher.Core.Abstract
             }
 
             return output;
+        }
+
+        /// <summary>
+        /// Provides a convenient way to list 
+        /// and modify projects in a solution 
+        /// file.
+        /// </summary>
+        protected virtual void SlnAction(string solution, IEnumerable<string> projects, ArgumentsBuilder builder)
+        {
+            if (projects.Any())
+            {
+                CliWrap.Command command = Cli.Wrap("dotnet").WithWorkingDirectory(Path.GetDirectoryName(solution))
+
+                    .WithArguments(args => args.Add("sln").Add(solution).Add(builder.Build(), false));
+
+                BufferedCommandResult result = command.ExecuteBufferedAsync().GetAwaiter().GetResult();
+
+                if (!string.IsNullOrWhiteSpace(result.StandardOutput))
+                {
+                    MessageProvider.Clear();
+
+                    MessageProvider.AddMessage(result.StandardOutput, MessageCategory.ME);
+                }
+
+                if (!string.IsNullOrWhiteSpace(result.StandardError))
+                {
+                    MessageProvider.Clear();
+
+                    MessageProvider.AddMessage(result.StandardError,  MessageCategory.ER);
+                }
+            }
         }
     }
 }

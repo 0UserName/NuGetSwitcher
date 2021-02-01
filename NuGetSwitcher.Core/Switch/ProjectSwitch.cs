@@ -1,5 +1,4 @@
-﻿using CliWrap;
-using CliWrap.Buffered;
+﻿using CliWrap.Builders;
 
 using Microsoft.Build.Evaluation;
 
@@ -133,40 +132,12 @@ namespace NuGetSwitcher.Core.Switch
             }
         }
 
+        /// <summary>
+        /// Adds one or more projects to the solution file.
+        /// </summary>
         protected virtual void AddToSolution(string solution, IEnumerable<string> projects)
         {
-            CliWrap.Command command = Cli.Wrap("dotnet")
-
-                .WithWorkingDirectory(Path.GetDirectoryName(solution))
-
-                .WithArguments(
-
-                args => args.Add("sln")
-                       .Add(solution)
-                       .Add("add")
-                       .Add(projects)
-
-                       /*
-                        * Since .NET Core 3.0 SDK.
-                        * 
-                        * Destination solution folder 
-                        * path to add the projects to.
-                        */
-
-                       .Add("--solution-folder")
-                       .Add("Temporary"));
-
-            BufferedCommandResult result = command.ExecuteBufferedAsync().GetAwaiter().GetResult();
-
-            if (!string.IsNullOrWhiteSpace(result.StandardOutput))
-            {
-                MessageProvider.AddMessage(result.StandardOutput, MessageCategory.ME);
-            }
-
-            if (!string.IsNullOrWhiteSpace(result.StandardError))
-            {
-                MessageProvider.AddMessage(result.StandardError , MessageCategory.ER);
-            }
+            base.SlnAction(solution, projects, new ArgumentsBuilder().Add("add").Add(projects).Add("--solution-folder").Add("Temporary"));
         }
     }
 }
