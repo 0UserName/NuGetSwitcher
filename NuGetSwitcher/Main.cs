@@ -63,15 +63,13 @@ namespace NuGetSwitcher
 
             IOptionProvider optionProvider = new OptionProvider(messageProvider);
 
-            IOptionProvider packageOption = (VsixPackageOption)GetDialogPage(typeof(VsixPackageOption));
+            VsixPackageOption vsixPackageOption = ((VsixPackageOption)GetDialogPage(typeof(VsixPackageOption))).Init(optionProvider);
 
-            ((VsixPackageOption)packageOption).Init(optionProvider);
+            AbstractSwitch projectSwtich = new ProjectSwitch(ReferenceType.ProjectReference, vsixPackageOption, projectProvider, messageProvider);
+            AbstractSwitch packageSwitch = new PackageSwitch(ReferenceType.PackageReference, vsixPackageOption, projectProvider, messageProvider);
+            AbstractSwitch librarySwitch = new LibrarySwitch(ReferenceType.Reference       , vsixPackageOption, projectProvider, messageProvider);
 
-            AbstractSwitch projectSwtich = new ProjectSwitch(ReferenceType.ProjectReference, optionProvider, projectProvider, messageProvider);
-            AbstractSwitch packageSwitch = new PackageSwitch(ReferenceType.PackageReference, optionProvider, projectProvider, messageProvider);
-            AbstractSwitch librarySwitch = new LibrarySwitch(ReferenceType.Reference       , optionProvider, projectProvider, messageProvider);
-
-            ICommandProvider commandRouter = new CommandProvider(optionProvider, projectSwtich, packageSwitch, librarySwitch);
+            ICommandProvider commandRouter = new CommandProvider(vsixPackageOption, projectSwtich, packageSwitch, librarySwitch);
 
             new CommandProject(commandRouter, messageProvider).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0100);
             new CommandPackage(commandRouter, messageProvider).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0200);

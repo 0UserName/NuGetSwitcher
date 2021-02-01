@@ -26,7 +26,10 @@ namespace NuGetSwitcher.VSIXService.Option
             }
             set
             {
-                OptionProvider.IncludeProjectFile = value;
+                if (OptionProvider != default)
+                {
+                    OptionProvider.IncludeProjectFile = value;
+                }
             }
         }
 
@@ -42,7 +45,10 @@ namespace NuGetSwitcher.VSIXService.Option
             }
             set
             {
-                OptionProvider.IncludeLibraryFile = value;
+                if (OptionProvider != default)
+                {
+                    OptionProvider.IncludeLibraryFile = value;
+                }
             }
         }
 
@@ -58,10 +64,12 @@ namespace NuGetSwitcher.VSIXService.Option
             }
             set
             {
-                OptionProvider.ExcludeProjectFile = value;
+                if (OptionProvider != default)
+                {
+                    OptionProvider.ExcludeProjectFile = value;
+                }
             }
         }
-
 
         protected IOptionProvider OptionProvider
         {
@@ -69,9 +77,11 @@ namespace NuGetSwitcher.VSIXService.Option
             set;
         }
 
-        public void Init(IOptionProvider optionProvider)
+        public VsixPackageOption Init(IOptionProvider optionProvider)
         {
             OptionProvider = optionProvider;
+
+            return this;
         }
 
         /// <summary>
