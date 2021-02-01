@@ -163,7 +163,7 @@ namespace NuGetSwitcher.Core.Switch
                 MessageProvider.AddMessage(result.StandardOutput, MessageCategory.ME);
             }
 
-            if (!string.IsNullOrWhiteSpace(result.StandardOutput))
+            if (!string.IsNullOrWhiteSpace(result.StandardError))
             {
                 MessageProvider.AddMessage(result.StandardError , MessageCategory.ER);
             }
