@@ -61,9 +61,14 @@ namespace NuGetSwitcher
             IMessageProvider messageProvider = new VsixMessageProvider(vsSolution, new ErrorListProvider(this));
             IProjectProvider projectProvider = new VsixProjectProvider();
 
+            RegisterService(messageProvider);
+            RegisterService(projectProvider);
+
             IOptionProvider optionProvider = new OptionProvider(messageProvider);
 
-            VsixPackageOption vsixPackageOption = ((VsixPackageOption)GetDialogPage(typeof(VsixPackageOption))).Init(optionProvider);
+            RegisterService(optionProvider);
+
+            VsixPackageOption vsixPackageOption = ((VsixPackageOption)GetDialogPage(typeof(VsixPackageOption)));
 
             AbstractSwitch projectSwtich = new ProjectSwitch(ReferenceType.ProjectReference, vsixPackageOption, projectProvider, messageProvider);
             AbstractSwitch packageSwitch = new PackageSwitch(ReferenceType.PackageReference, vsixPackageOption, projectProvider, messageProvider);
@@ -74,6 +79,11 @@ namespace NuGetSwitcher
             new CommandProject(commandRouter, messageProvider).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0100);
             new CommandPackage(commandRouter, messageProvider).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0200);
             new CommandLibrary(commandRouter, messageProvider).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0300);
+        }
+
+        private void RegisterService<T>(T service)
+        {
+            ((IServiceContainer)this).AddService(typeof(T), service, true);
         }
     }
 }
