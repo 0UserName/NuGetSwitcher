@@ -34,7 +34,7 @@ namespace NuGetSwitcher.Core.Option
         protected IMessageProvider MessageHelper
         {
             get;
-            set;
+            private set;
         }
 
         public OptionProvider(IMessageProvider messageHelper)
@@ -74,7 +74,7 @@ namespace NuGetSwitcher.Core.Option
         /// is found. Level at which the file is located is 
         /// not taken into account.
         /// </summary>
-        private bool Contains(string[] excludeDirectories, string absolutePath)
+        private bool Contains(IEnumerable<string> excludeDirectories, string absolutePath)
         {
             const int NOT_FOUND = -1;
 

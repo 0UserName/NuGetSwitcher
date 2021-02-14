@@ -1,48 +1,55 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace NuGetSwitcher.Core.Option.Entity
 {
     public struct FileOption
     {
-        public string[] Include
+        public IEnumerable<string> Include
         {
             get;
-            set;
+            private set;
         }
 
-        public string[] Exclude
+        public IEnumerable<string> Exclude
         {
             get;
-            set;
+            private set;
         }
 
         public string Pattern
         {
             get;
-            set;
+            private set;
         }
 
-        public FileOption(string includeFile, string excludeFile, string pattern)
+
+        public FileOption(string includeFile, string excludeFile, string pattern) : this()
         {
-            if (!File.Exists(includeFile))
+            Include = Enumerable.Empty<string>();
+            Exclude = Enumerable.Empty<string>();
+
+            if (File.Exists(includeFile))
+            {
+                Include = ReadConfig(includeFile);
+            }
+            else
             {
                 throw new FileNotFoundException($"Configuration file: { includeFile } not specified or not found");
             }
-            else
-            {
-                Include = File.ReadAllLines(includeFile);
-            }
 
-            if (!File.Exists(excludeFile))
+            if (File.Exists(excludeFile))
             {
-                Exclude = new string[0];
-            }
-            else
-            {
-                Exclude = File.ReadAllLines(excludeFile);
+                Exclude = ReadConfig(excludeFile);
             }
 
             Pattern = pattern;
+        }
+
+        private IEnumerable<string> ReadConfig(string path)
+        {
+            return File.ReadAllLines(path).Where(l => !l.StartsWith("#")) ?? Enumerable.Empty<string>();
         }
     }
 }
