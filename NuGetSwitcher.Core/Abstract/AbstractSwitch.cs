@@ -75,7 +75,10 @@ namespace NuGetSwitcher.Core.Abstract
         /// <exception cref="SwitcherFileNotFoundException"/>
         protected virtual LockFileTarget GetProjectTarget(IProjectReference reference)
         {
-            return GetLockFile(reference).GetTarget(new NuGetFramework(reference.TFI, new Version(reference.TFV), string.Empty), null) ??
+            NuGetFramework nf = new
+            NuGetFramework(reference.TFI, new Version(reference.TFV));
+
+            return GetLockFile(reference).GetTarget(nf, string.Empty) ??
 
                 new LockFileTarget()
                 {

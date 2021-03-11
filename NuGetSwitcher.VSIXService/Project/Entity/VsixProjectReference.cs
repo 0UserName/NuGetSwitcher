@@ -128,6 +128,20 @@ namespace NuGetSwitcher.VSIXService.Project.Entity
             TFV = match.Groups["TFV"].Value;
 
             IsTemp = !Directory.GetFiles(Path.GetDirectoryName(DteProject.DTE.Solution.FullName), Path.GetFileName(MsbProject.FullPath), SearchOption.AllDirectories).Any();
+
+            TFI = AdaptTFI(TFI, TFV);
+        }
+
+        private string AdaptTFI(string TFI, string TFV)
+        {
+            switch (TFV)
+            {
+                case "5.0":
+                    TFI = ".NETFramework";
+                    break;
+            }
+
+            return TFI;
         }
 
         /// <summary>
