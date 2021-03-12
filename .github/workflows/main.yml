@@ -1,0 +1,65 @@
+name: Build
+'on':
+  push:
+    branches:
+      - develop
+      - master
+    paths-ignore:
+      - docs/**
+jobs:
+  build-extension:
+
+    runs-on: windows-latest
+
+    env:
+      RepositoryUrl: 'https://github.com/${{ github.repository }}'
+      RepositoryBranch: '${{ github.ref }}'
+      SourceRevisionId: '${{ github.sha }}'
+      Configuration: Release
+      SolutionPath: NuGetSwitcher.sln
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.x
+
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.0.2
+        id: MsBuildSetup
+        with:
+          vs-version: '[16.8,16.9)'
+
+#########################################################################
+##                  Continuous Inspection: Sonar Scan                  ##
+#########################################################################
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.11
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          SONAR_TOKEN : '${{ secrets.SONAR_TOKEN  }}'
+        shell: powershell
+        run: >
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"0UserName_NuGetSwitcher" /o:"0username" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+
+          msbuild $env:SolutionPath /t:Restore /t:Rebuild /p:DeployExtension=false
+
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"

@@ -1,3 +1,7 @@
+## Build Status
+
+![Build Status](https://github.com/0UserName/NuGetSwitcher/actions/workflows/main.yml/badge.svg)
+
 ## Description
 
 <div style="text-align: justify">
