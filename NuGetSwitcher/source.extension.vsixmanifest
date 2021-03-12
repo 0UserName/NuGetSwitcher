@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <PackageManifest xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011" Version="2.0.0">
   <Metadata>
-    <Identity Id="DCB9FB28-5610-4A94-9471-4BF2D0556BC5" Version="0.5.1" Language="en-US" Publisher="0username" />
+    <Identity Id="DCB9FB28-5610-4A94-9471-4BF2D0556BC5" Version="0.6.0" Language="en-US" Publisher="0username" />
     <DisplayName>NuGetSwitcher</DisplayName>
     <Description xml:space="preserve">Extension for switching references in projects: PackageReference to ProjectReference or Reference.</Description>
     <License>LICENSE.txt</License>
