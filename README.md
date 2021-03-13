@@ -1,6 +1,6 @@
 ## Build Status
 
-![Build Status](https://github.com/0UserName/NuGetSwitcher/actions/workflows/main.yml/badge.svg)
+![Build Status](https://github.com/0UserName/NuGetSwitcher/actions/workflows/main.yml/badge.svg) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=0UserName_NuGetSwitcher&metric=alert_status)](https://sonarcloud.io/dashboard?id=0UserName_NuGetSwitcher)
 
 ## Description
 
