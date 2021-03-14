@@ -29,19 +29,19 @@ If the file is present, then the extension starts processing explicit and implic
 ## Conditional references
 
 <div style="text-align: justify">
-<code>ItemGroups</code> with conditions defined as follows are not handled correctly, which will be fixed in the following versions:
+When working with references, only evaluated items are used. In this example, when using the Debug configuration, reference A will be replaced, while for the Release configuration, reference B.
 </div>
 
 ```
 <Choose>
-  <When Condition=" '$(SolutionDir)' != '' ">
+  <When Condition=" '$(Configuration)' != 'Release' ">
     <ItemGroup>
-      <PackageReference Include="Library" Version="0.1.0-a*" />
+      <PackageReference Include="LibraryA" Version="0.1.0*" />
     </ItemGroup>
   </When>
   <Otherwise>
     <ItemGroup>
-      <ProjectReference Include="Library" Version="0.1.0-b*" />
+      <ProjectReference Include="LibraryB" Version="0.1.0*" />
     </ItemGroup>
   </Otherwise>
 </Choose>
