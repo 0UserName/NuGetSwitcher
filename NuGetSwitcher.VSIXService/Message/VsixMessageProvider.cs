@@ -35,16 +35,6 @@ namespace NuGetSwitcher.VSIXService.Message
         /// Displays a message 
         /// with the specified 
         /// type in the associated GUI tab.
-        /// </summary>
-        public virtual void AddMessage(string message, MessageCategory category, [CallerMemberName] string caller = "")
-        {
-            ErrorList.Tasks.Add(new ErrorTask { Text = $"Caller: { caller }. Message: { message }", ErrorCategory = (TaskErrorCategory)category });
-        }
-
-        /// <summary>
-        /// Displays a message 
-        /// with the specified 
-        /// type in the associated GUI tab.
         /// This overload fills the Project
         /// column.
         /// </summary>
@@ -54,7 +44,19 @@ namespace NuGetSwitcher.VSIXService.Message
         /// </param>
         public virtual void AddMessage(string project, string message, MessageCategory category, [CallerMemberName] string caller = "")
         {
-            ErrorList.Tasks.Add(new ErrorTask { Text = $"Caller: { caller }. Message: { message }", ErrorCategory = (TaskErrorCategory)category, HierarchyItem = GetProjectHierarchyItem(project), Document = project });
+            IVsHierarchy vsh = project == default ? default : GetProjectHierarchyItem(project);
+
+            ErrorList.Tasks.Add(new ErrorTask { Text = $"Caller: { caller }. Message: { message }", ErrorCategory = (TaskErrorCategory)category, HierarchyItem = vsh, Document = project });
+        }
+
+        /// <summary>
+        /// Displays a message 
+        /// with the specified 
+        /// type in the associated GUI tab.
+        /// </summary>
+        public virtual void AddMessage(string message, MessageCategory category, [CallerMemberName] string caller = "")
+        {
+            AddMessage(default, message, category, caller);
         }
 
         /// <summary>
@@ -74,6 +76,10 @@ namespace NuGetSwitcher.VSIXService.Message
             {
                 AddMessage(se);
             }
+
+            ErrorList.BringToFront();
+
+            ErrorList.ForceShowErrors();
         }
 
         /// <summary>
