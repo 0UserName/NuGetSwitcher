@@ -1,12 +1,8 @@
 ﻿using Microsoft.Build.Evaluation;
-
 using Microsoft.VisualStudio.Shell;
-
 using NuGetSwitcher.Interface.Contract;
 using NuGetSwitcher.Interface.Entity;
-
 using NuGetSwitcher.VSIXService.Project.Entity;
-
 using System.Collections.Generic;
 using System.Linq;
 
@@ -42,25 +38,44 @@ namespace NuGetSwitcher.VSIXService.Project
         /// </summary>
         public virtual IEnumerable<IProjectReference> GetLoadedProject()
         {
-            List<IProjectReference> projects = new
-            List<IProjectReference>
-            (30);
+            var rootProjects = new List<EnvDTE.Project>();
 
-            foreach (EnvDTE.Project dteProject in DTE.Solution.Projects)
+            foreach (EnvDTE.Project item in DTE.Solution.Projects)
+                rootProjects.Add(item);
+
+            var loadedProjects = TraverseProjects(rootProjects);
+            return loadedProjects;
+        }
+
+        /// <summary>
+        /// Recursively builds projects references
+        /// </summary>
+        /// <returns>Projects references including nested items</returns>
+        protected virtual IEnumerable<IProjectReference> TraverseProjects(IEnumerable<EnvDTE.Project> projects)
+        {
+            var traversedProjects = new List<IProjectReference>();
+
+            foreach (EnvDTE.Project project in projects)
             {
-                /* 
-                 * To filter miscellaneous files. 
-                 */
-
-                if (string.IsNullOrWhiteSpace(dteProject.FileName))
+                if (string.IsNullOrWhiteSpace(project.FileName))
                 {
+                    var nestedProjects = new List<EnvDTE.Project>();
+
+                    foreach (EnvDTE.ProjectItem nestedProjectItem in project.ProjectItems)
+                {
+                        var nestedProject = nestedProjectItem.Object as EnvDTE.Project;
+                        if (nestedProject != null)
+                            nestedProjects.Add(nestedProject);
+                    }
+
+                    traversedProjects.AddRange(TraverseProjects(nestedProjects));
                     continue;
                 }
 
-                projects.Add(new VsixProjectReference(dteProject, GetLoadedProject(dteProject.FullName)));
+                traversedProjects.Add(new VsixProjectReference(project, GetLoadedProject(project.FullName)));
             }
 
-            return projects;
+            return traversedProjects;
         }
 
         /// <summary>

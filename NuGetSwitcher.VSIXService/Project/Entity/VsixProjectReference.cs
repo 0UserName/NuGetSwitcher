@@ -189,5 +189,7 @@ namespace NuGetSwitcher.VSIXService.Project.Entity
         {
             MsbProject.Save();
         }
+
+        public override string ToString() => UniqueName ?? base.ToString();
     }
 }
