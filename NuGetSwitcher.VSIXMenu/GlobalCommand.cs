@@ -17,19 +17,19 @@ namespace NuGetSwitcher.VSIXMenu
         public ICommandProvider CommandProvider
         {
             get;
-            private set;
+            protected set;
         }
 
         public IMessageProvider MessageProvider
         {
             get;
-            private set;
+            protected set;
         }
 
         public string Name
         {
             get;
-            private set;
+            protected set;
         }
 
         protected GlobalCommand(ICommandProvider commandProvider, IMessageProvider messageProvider)
@@ -51,6 +51,16 @@ namespace NuGetSwitcher.VSIXMenu
         /// <summary>
         /// Callback for <see cref="MenuCommand"/>.
         /// </summary>
-        public abstract void Callback(object sender, EventArgs eventArgs);
+        public virtual void Callback(object sender, EventArgs eventArgs)
+        {
+            try
+            {
+                CommandProvider.Route(Name);
+            }
+            catch (Exception exception)
+            {
+                MessageProvider.AddMessage(exception);
+            }
+        }
     }
 }

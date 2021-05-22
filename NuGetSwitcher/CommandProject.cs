@@ -2,29 +2,11 @@
 
 using NuGetSwitcher.VSIXMenu;
 
-using System;
-using System.ComponentModel.Design;
-
 namespace NuGetSwitcher
 {
     internal sealed class CommandProject : GlobalCommand
     {
-        public CommandProject(ICommandProvider commandRouter, IMessageProvider messageProvider) : base(commandRouter, messageProvider)
+        internal CommandProject(ICommandProvider commandRouter, IMessageProvider messageProvider) : base(commandRouter, messageProvider)
         { }
-
-        /// <summary>
-        /// Callback for <see cref="MenuCommand"/>.
-        /// </summary>
-        public override void Callback(object sender, EventArgs eventArgs)
-        {
-            try
-            {
-                CommandProvider.Route(Name);
-            }
-            catch (Exception exception)
-            {
-                MessageProvider.AddMessage(exception);
-            }
-        }
     }
 }
