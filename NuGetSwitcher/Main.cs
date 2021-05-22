@@ -7,7 +7,7 @@ using NuGetSwitcher.Core.Option;
 using NuGetSwitcher.Core.Switch;
 
 using NuGetSwitcher.Interface.Contract;
-using NuGetSwitcher.Interface.Entity.Enum;
+
 using NuGetSwitcher.VSIXService.Message;
 using NuGetSwitcher.VSIXService.Option;
 using NuGetSwitcher.VSIXService.Project;
@@ -70,11 +70,11 @@ namespace NuGetSwitcher
 
             VsixPackageOption vsixPackageOption = ((VsixPackageOption)GetDialogPage(typeof(VsixPackageOption)));
 
-            AbstractSwitch projectSwtich = new ProjectSwitch(ReferenceType.ProjectReference, vsixPackageOption, projectProvider, messageProvider);
-            AbstractSwitch packageSwitch = new PackageSwitch(ReferenceType.PackageReference, vsixPackageOption, projectProvider, messageProvider);
-            AbstractSwitch librarySwitch = new LibrarySwitch(ReferenceType.Reference       , vsixPackageOption, projectProvider, messageProvider);
+            AbstractSwitch projectSwtich = new ProjectSwitch(vsixPackageOption, projectProvider, messageProvider);
+            AbstractSwitch packageSwitch = new PackageSwitch(vsixPackageOption, projectProvider, messageProvider);
+            AbstractSwitch librarySwitch = new LibrarySwitch(vsixPackageOption, projectProvider, messageProvider);
 
-            ICommandProvider commandRouter = new CommandProvider(vsixPackageOption, projectSwtich, packageSwitch, librarySwitch);
+            ICommandProvider commandRouter = new CommandProvider(projectSwtich, packageSwitch, librarySwitch);
 
             new CommandProject(commandRouter, messageProvider).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0100);
             new CommandPackage(commandRouter, messageProvider).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0200);

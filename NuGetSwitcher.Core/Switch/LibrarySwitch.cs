@@ -14,8 +14,10 @@ namespace NuGetSwitcher.Core.Switch
 {
     public class LibrarySwitch : ProjectSwitch
     {
-        public LibrarySwitch(ReferenceType type, IOptionProvider optionProvider, IProjectProvider projectHelper, IMessageProvider messageHelper) : base(type, optionProvider, projectHelper, messageHelper)
-        { }
+        public LibrarySwitch(IOptionProvider optionProvider, IProjectProvider projectHelper, IMessageProvider messageHelper) : base(optionProvider, projectHelper, messageHelper)
+        {
+            Type = ReferenceType.Reference;
+        }
 
         /// <summary>
         /// Replaces PackageReference references marked with the 

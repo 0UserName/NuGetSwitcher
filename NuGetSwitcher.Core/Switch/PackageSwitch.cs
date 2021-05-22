@@ -18,7 +18,7 @@ namespace NuGetSwitcher.Core.Switch
 {
     public class PackageSwitch : AbstractSwitch
     {
-        public PackageSwitch(ReferenceType type, IOptionProvider optionProvider, IProjectProvider projectHelper, IMessageProvider messageHelper) : base(type, optionProvider, projectHelper, messageHelper)
+        public PackageSwitch(IOptionProvider optionProvider, IProjectProvider projectHelper, IMessageProvider messageHelper) : base(ReferenceType.PackageReference, optionProvider, projectHelper, messageHelper)
         { }
 
         /// <summary>

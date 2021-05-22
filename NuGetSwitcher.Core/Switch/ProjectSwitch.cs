@@ -20,7 +20,7 @@ namespace NuGetSwitcher.Core.Switch
 {
     public class ProjectSwitch : AbstractSwitch
     {
-        public ProjectSwitch(ReferenceType type, IOptionProvider optionProvider, IProjectProvider projectHelper, IMessageProvider messageHelper) : base(type, optionProvider, projectHelper, messageHelper)
+        public ProjectSwitch(IOptionProvider optionProvider, IProjectProvider projectHelper, IMessageProvider messageHelper) : base(ReferenceType.ProjectReference, optionProvider, projectHelper, messageHelper)
         { }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace NuGetSwitcher.Core.Switch
                     item.UnevaluatedInclude = absolutePath;
                 }
 
-                MessageProvider.AddMessage(reference.MsbProject.FullPath, $"Dependency: {library.Name } has been switched. Type: { Type }", MessageCategory.ME);
+                MessageProvider.AddMessage(reference.MsbProject.FullPath, $"Dependency: { library.Name } has been switched. Type: { Type }", MessageCategory.ME);
             }
         }
 

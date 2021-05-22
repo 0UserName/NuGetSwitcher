@@ -24,7 +24,7 @@ namespace NuGetSwitcher.Core.Abstract
         protected ReferenceType Type
         {
             get;
-            private set;
+            set;
         }
 
         protected IOptionProvider OptionProvider
@@ -218,7 +218,7 @@ namespace NuGetSwitcher.Core.Abstract
                 {
                     MessageProvider.Clear();
 
-                    MessageProvider.AddMessage(result.StandardError , MessageCategory.ER);
+                    MessageProvider.AddMessage(result.StandardError, MessageCategory.ER);
                 }
             }
         }
