@@ -1,11 +1,10 @@
-﻿using Microsoft.Build.Evaluation;
+﻿using Microsoft.Build.Construction;
+using Microsoft.Build.Evaluation;
 
 using Microsoft.VisualStudio.Shell;
 
 using NuGetSwitcher.Interface.Contract;
 using NuGetSwitcher.Interface.Entity;
-
-using NuGetSwitcher.VSIXService.Project.Entity;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -46,18 +45,14 @@ namespace NuGetSwitcher.VSIXService.Project
             List<IProjectReference>
             (30);
 
-            foreach (EnvDTE.Project dteProject in DTE.Solution.Projects)
+            foreach (var kv in SolutionFile.Parse(DTE.Solution.FullName).ProjectsByGuid)
             {
-                /* 
-                 * To filter miscellaneous files. 
-                 */
-
-                if (string.IsNullOrWhiteSpace(dteProject.FileName))
+                switch (kv.Value.ProjectType)
                 {
-                    continue;
+                    case SolutionProjectType.KnownToBeMSBuildFormat:
+                        projects.Add(new ProjectReference(DTE.Solution.FullName, GetLoadedProject(kv.Value.AbsolutePath)));
+                        break;
                 }
-
-                projects.Add(new VsixProjectReference(dteProject, GetLoadedProject(dteProject.FullName)));
             }
 
             return projects;

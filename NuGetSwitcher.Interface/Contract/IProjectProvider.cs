@@ -1,7 +1,5 @@
 ﻿using Microsoft.Build.Evaluation;
 
-using NuGetSwitcher.Interface.Entity;
-
 using System.Collections.Generic;
 
 namespace NuGetSwitcher.Interface.Contract

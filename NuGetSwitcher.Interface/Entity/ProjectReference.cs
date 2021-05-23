@@ -1,4 +1,6 @@
-﻿using NuGetSwitcher.Interface.Entity;
+﻿using Microsoft.Build.Evaluation;
+
+using NuGetSwitcher.Interface.Contract;
 using NuGetSwitcher.Interface.Entity.Enum;
 using NuGetSwitcher.Interface.Entity.Error;
 
@@ -9,25 +11,19 @@ using System.Text.RegularExpressions;
 
 using MsbProject = Microsoft.Build.Evaluation.Project;
 
-namespace NuGetSwitcher.VSIXService.Project.Entity
+namespace NuGetSwitcher.Interface.Entity
 {
-    public sealed class VsixProjectReference : IProjectReference
+    public class ProjectReference : IProjectReference
     {
-        public EnvDTE.Project DteProject
-        {
-            get;
-            private set;
-        }
-
         public MsbProject MsbProject
         {
             get;
-            private set;
+            protected set;
         }
 
         public string UniqueName
         {
-            get => MsbProject.FullPath;
+            get => _msbProperties["MSBuildProjectFullPath"];
         }
 
         /// <summary>
@@ -39,23 +35,7 @@ namespace NuGetSwitcher.VSIXService.Project.Entity
         /// </remarks>
         public string TFM
         {
-            get => _dteProperties["TargetFrameworkMoniker"];
-        }
-
-        /// <summary>
-        /// Target Framework Moniker [Multiple].
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// .NETFramework,Version=v4.6.1
-        /// .NETFramework,Version=v4.6.2
-        /// .NETFramework,Version=v4.7.2
-        /// .NETStandard,Version=v2.0
-        /// .NETStandard,Version=v2.1
-        /// </remarks>
-        public string TFMs
-        {
-            get => _dteProperties["TargetFrameworkMonikers"];
+            get => _msbProperties["TargetFrameworkMoniker"];
         }
 
         /// <summary>
@@ -64,7 +44,7 @@ namespace NuGetSwitcher.VSIXService.Project.Entity
         public string TFI
         {
             get;
-            private set;
+            protected set;
         }
 
         /// <summary>
@@ -73,7 +53,7 @@ namespace NuGetSwitcher.VSIXService.Project.Entity
         public string TFV
         {
             get;
-            private set;
+            protected set;
         }
 
         /// <summary>
@@ -88,60 +68,35 @@ namespace NuGetSwitcher.VSIXService.Project.Entity
         public bool IsTemp
         {
             get;
-            private set;
+            protected set;
         }
 
-        private readonly Dictionary<string, string> _dteProperties = new
-                         Dictionary<string, string>
-        {
-            { "TargetFrameworkMoniker" , "" },
-            { "TargetFrameworkMonikers", "" }
-        };
-
-        public VsixProjectReference(EnvDTE.Project dteProject, MsbProject msbProject)
-        {
-            DteProject = dteProject;
-            MsbProject = msbProject;
-
-            Init(dteProject);
-        }
-
-        /// <summary>
-        /// Retrieves property values defined
-        /// by keys in dictionary <see cref="_dteProperties"/>
-        /// from <paramref name="project"/> and assigns them
-        /// as values of the same keys.
-        /// </summary>
-        private void Init(EnvDTE.Project project)
-        {
-            foreach (EnvDTE.Property property in project.Properties)
+        protected readonly
+            Dictionary<string, string> _msbProperties = new
+            Dictionary<string, string>
             {
-                if (_dteProperties.ContainsKey(property.Name))
+                { "MSBuildProjectFullPath" , "" },
+                { "TargetFrameworkMoniker" , "" }
+            };
+
+        public ProjectReference(string solutionFile, MsbProject project)
+        {
+            MsbProject = project;
+
+            foreach (ProjectProperty property in MsbProject.Properties)
+            {
+                if (_msbProperties.ContainsKey(property.Name))
                 {
-                    _dteProperties[property.Name] = property.Value as string;
+                    _msbProperties[property.Name] = property.EvaluatedValue;
                 }
             }
 
-            Match match = Regex.Match(TFM, "\\A(?<TFI>[a-zA-Z.]+),.*=v(?<TFV>[0-9.]+)\\z");
+            Match match = Regex.Match(TFM, "\\A(?<TFI>[a-zA-Z.]+),.*=v(?<TFV>[0-9.]+)\\z"); // Ex: .NETFramework,Version=v4.7.2
 
             TFI = match.Groups["TFI"].Value;
             TFV = match.Groups["TFV"].Value;
 
-            IsTemp = !Directory.GetFiles(Path.GetDirectoryName(DteProject.DTE.Solution.FullName), Path.GetFileName(MsbProject.FullPath), SearchOption.AllDirectories).Any();
-
-            TFI = AdaptTFI(TFI, TFV);
-        }
-
-        private string AdaptTFI(string TFI, string TFV)
-        {
-            switch (TFV)
-            {
-                case "5.0":
-                    TFI = ".NETFramework";
-                    break;
-            }
-
-            return TFI;
+            IsTemp = !Directory.GetFiles(Path.GetDirectoryName(solutionFile), Path.GetFileName(MsbProject.FullPath), SearchOption.AllDirectories).Any();
         }
 
         /// <summary>
@@ -158,9 +113,9 @@ namespace NuGetSwitcher.VSIXService.Project.Entity
         /// as it implicitly calls restore before build, or msbuid.exe /t:restore
         /// with msbuild CLI.
         /// </remarks>
-        public string GetLockFile()
+        public virtual string GetLockFile()
         {
-            string path = Path.Combine(MsbProject.DirectoryPath, "obj\\project.assets.json");
+            string path = Path.Combine(MsbProject.DirectoryPath, "obj", "project.assets.json");
 
             if (!File.Exists(path))
             {
@@ -185,7 +140,7 @@ namespace NuGetSwitcher.VSIXService.Project.Entity
         /// <summary>
         /// 
         /// </summary>
-        public void Save()
+        public virtual void Save()
         {
             MsbProject.Save();
         }

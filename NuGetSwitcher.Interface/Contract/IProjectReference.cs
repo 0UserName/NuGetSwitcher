@@ -1,6 +1,8 @@
 ﻿using Microsoft.Build.Evaluation;
 
-namespace NuGetSwitcher.Interface.Entity
+using NuGetSwitcher.Interface.Entity.Error;
+
+namespace NuGetSwitcher.Interface.Contract
 {
     public interface IProjectReference
     {
@@ -27,22 +29,6 @@ namespace NuGetSwitcher.Interface.Entity
         }
 
         /// <summary>
-        /// Target Framework Moniker [Multiple].
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// .NETFramework,Version=v4.6.1
-        /// .NETFramework,Version=v4.6.2
-        /// .NETFramework,Version=v4.7.2
-        /// .NETStandard,Version=v2.0
-        /// .NETStandard,Version=v2.1
-        /// </remarks>
-        string TFMs
-        {
-            get;
-        }
-
-        /// <summary>
         /// Target Framework Identifier.
         /// </summary>
         string TFI
@@ -63,8 +49,25 @@ namespace NuGetSwitcher.Interface.Entity
             get;
         }
 
+        /// <summary>
+        /// Returns the path to the project.assets.json
+        /// lock file containing the project dependency
+        /// graph.
+        /// </summary>
+        ///
+        /// <exception cref="SwitcherFileNotFoundException"/>
+        /// 
+        /// <remarks>
+        /// project.assets.json lists all the dependencies of the project. It is
+        /// created in the /obj folder when using dotnet restore or dotnet build 
+        /// as it implicitly calls restore before build, or msbuid.exe /t:restore
+        /// with msbuild CLI.
+        /// </remarks>
         string GetLockFile();
 
+        /// <summary>
+        /// 
+        /// </summary>
         void Save();
     }
 }
