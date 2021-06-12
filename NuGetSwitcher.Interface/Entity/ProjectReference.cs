@@ -1,5 +1,9 @@
 ﻿using Microsoft.Build.Evaluation;
 
+using NuGet.Common;
+using NuGet.Frameworks;
+using NuGet.ProjectModel;
+
 using NuGetSwitcher.Interface.Contract;
 using NuGetSwitcher.Interface.Entity.Enum;
 using NuGetSwitcher.Interface.Entity.Error;
@@ -7,7 +11,6 @@ using NuGetSwitcher.Interface.Entity.Error;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 using MsbProject = Microsoft.Build.Evaluation.Project;
 
@@ -39,21 +42,15 @@ namespace NuGetSwitcher.Interface.Entity
         }
 
         /// <summary>
-        /// Target Framework Identifier.
+        /// Target Framework Moniker.
         /// </summary>
-        public string TFI
+        /// 
+        /// <remarks>
+        /// netcoreapp3.1;net5.0
+        /// </remarks>
+        public string TFMs
         {
-            get;
-            protected set;
-        }
-
-        /// <summary>
-        /// Target Framework Version.
-        /// </summary>
-        public string TFV
-        {
-            get;
-            protected set;
+            get => _msbProperties["TargetFrameworks"];
         }
 
         /// <summary>
@@ -71,12 +68,19 @@ namespace NuGetSwitcher.Interface.Entity
             protected set;
         }
 
+        protected NuGetFramework NF
+        {
+            get;
+            set;
+        }
+
         protected readonly
             Dictionary<string, string> _msbProperties = new
             Dictionary<string, string>
             {
                 { "MSBuildProjectFullPath" , "" },
-                { "TargetFrameworkMoniker" , "" }
+                { "TargetFrameworkMoniker" , "" },
+                { "TargetFrameworks"       , "" }
             };
 
         public ProjectReference(string solutionFile, MsbProject project)
@@ -91,20 +95,25 @@ namespace NuGetSwitcher.Interface.Entity
                 }
             }
 
-            Match match = Regex.Match(TFM, "\\A(?<TFI>[a-zA-Z.]+),.*=v(?<TFV>[0-9.]+)\\z"); // Ex: .NETFramework,Version=v4.7.2
+            /*
+             * Either an explicitly specified value is
+             * used, or the first one from the list of 
+             * available ones. 
+             */
 
-            TFI = match.Groups["TFI"].Value;
-            TFV = match.Groups["TFV"].Value;
+            // TODO: TFM evaluation (multi-target).
+
+            NF = NuGetFramework.Parse(TFM ?? TFMs.Split(';')[0]);
 
             IsTemp = !Directory.GetFiles(Path.GetDirectoryName(solutionFile), Path.GetFileName(MsbProject.FullPath), SearchOption.AllDirectories).Any();
         }
 
         /// <summary>
-        /// Returns the path to the project.assets.json
-        /// lock file containing the project dependency
-        /// graph.
+        /// Returns the <see cref="LockFile"/> object that 
+        /// represents the contents of project.assets.json. 
+        /// Used to identify project dependencies.
         /// </summary>
-        ///
+        /// 
         /// <exception cref="SwitcherFileNotFoundException"/>
         /// 
         /// <remarks>
@@ -113,7 +122,7 @@ namespace NuGetSwitcher.Interface.Entity
         /// as it implicitly calls restore before build, or msbuid.exe /t:restore
         /// with msbuild CLI.
         /// </remarks>
-        public virtual string GetLockFile()
+        public virtual LockFile GetLockFile()
         {
             string path = Path.Combine(MsbProject.DirectoryPath, "obj", "project.assets.json");
 
@@ -126,15 +135,28 @@ namespace NuGetSwitcher.Interface.Entity
                  * exception.
                  */
 
-#pragma warning disable S1066 // Collapsible "if" statements should be merged
                 if (MsbProject.GetItems(nameof(ReferenceType.PackageReference)).Any())
-#pragma warning restore S1066 // Collapsible "if" statements should be merged
                 {
                     throw new SwitcherFileNotFoundException(MsbProject, $"File { path }. Message: Project lock file not found");
                 }
             }
 
-            return path;
+            return LockFileUtilities.GetLockFile(path, NullLogger.Instance) ?? new LockFile();
+        }
+
+        /// <summary>
+        /// Returns the <see cref="LockFileTarget"/> section
+        /// for a project TFM from the lock file provided by 
+        /// <see cref="LockFile"/>.
+        /// </summary>
+        /// 
+        /// <exception cref="SwitcherFileNotFoundException"/>
+        public virtual LockFileTarget GetProjectTarget()
+        {
+            return GetLockFile().GetTarget(NF, string.Empty) ?? new LockFileTarget()
+            {
+                Libraries = new List<LockFileTargetLibrary>()
+            };
         }
 
         /// <summary>

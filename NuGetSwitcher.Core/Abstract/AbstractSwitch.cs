@@ -2,8 +2,6 @@
 using CliWrap.Buffered;
 using CliWrap.Builders;
 
-using NuGet.Common;
-using NuGet.Frameworks;
 using NuGet.ProjectModel;
 
 using NuGetSwitcher.Interface.Contract;
@@ -55,38 +53,6 @@ namespace NuGetSwitcher.Core.Abstract
         }
 
         /// <summary>
-        /// Returns the <see cref="LockFile"/> object that 
-        /// represents the contents of project.assets.json. 
-        /// Used to identify project dependencies.
-        /// </summary>
-        /// 
-        /// <exception cref="SwitcherFileNotFoundException"/>
-        protected virtual LockFile GetLockFile(IProjectReference reference)
-        {
-            return LockFileUtilities.GetLockFile(reference.GetLockFile(), NullLogger.Instance) ?? new LockFile();
-        }
-
-        /// <summary>
-        /// Returns the <see cref="LockFileTarget"/> section
-        /// for a project TFM from the lock file provided by 
-        /// <see cref="LockFile"/>.
-        /// </summary>
-        /// 
-        /// <exception cref="SwitcherFileNotFoundException"/>
-        protected virtual LockFileTarget GetProjectTarget(IProjectReference reference)
-        {
-            NuGetFramework nf = new
-            NuGetFramework(reference.TFI, new Version(reference.TFV));
-
-            return GetLockFile(reference).GetTarget(nf, string.Empty) ??
-
-                new LockFileTarget()
-                {
-                    Libraries = new List<LockFileTargetLibrary>()
-                };
-        }
-
-        /// <summary>
         /// Basic operation of 
         /// switching one type 
         /// of reference to 
@@ -113,7 +79,7 @@ namespace NuGetSwitcher.Core.Abstract
 
             foreach (IProjectReference reference in references)
             {
-                foreach (LockFileTargetLibrary library in GetProjectTarget(reference).Libraries)
+                foreach (LockFileTargetLibrary library in reference.GetProjectTarget().Libraries)
                 {
                     if (items.TryGetValue(library.Name, out string absolutePath))
                     {
@@ -218,7 +184,7 @@ namespace NuGetSwitcher.Core.Abstract
                 {
                     MessageProvider.Clear();
 
-                    MessageProvider.AddMessage(result.StandardError, MessageCategory.ER);
+                    MessageProvider.AddMessage(result.StandardError,  MessageCategory.ER);
                 }
             }
         }

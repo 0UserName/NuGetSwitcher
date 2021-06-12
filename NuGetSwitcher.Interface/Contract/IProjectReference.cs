@@ -1,5 +1,7 @@
 ﻿using Microsoft.Build.Evaluation;
 
+using NuGet.ProjectModel;
+
 using NuGetSwitcher.Interface.Entity.Error;
 
 namespace NuGetSwitcher.Interface.Contract
@@ -29,41 +31,39 @@ namespace NuGetSwitcher.Interface.Contract
         }
 
         /// <summary>
-        /// Target Framework Identifier.
+        /// Target Framework Moniker.
         /// </summary>
-        string TFI
+        /// 
+        /// <remarks>
+        /// netcoreapp3.1;net5.0
+        /// </remarks>
+        string TFMs
         {
             get;
         }
 
         /// <summary>
-        /// Target Framework Version.
+        /// Checks that the project 
+        /// is inside the directory 
+        /// of the current solution.
         /// </summary>
-        string TFV
-        {
-            get;
-        }
-
+        /// 
+        /// <remarks>
+        /// Projects outside the directory are considered temporary.
+        /// </remarks>
         bool IsTemp
         {
             get;
         }
 
         /// <summary>
-        /// Returns the path to the project.assets.json
-        /// lock file containing the project dependency
-        /// graph.
+        /// Returns the <see cref="LockFileTarget"/> section
+        /// for a project TFM from the lock file provided by 
+        /// <see cref="LockFile"/>.
         /// </summary>
-        ///
-        /// <exception cref="SwitcherFileNotFoundException"/>
         /// 
-        /// <remarks>
-        /// project.assets.json lists all the dependencies of the project. It is
-        /// created in the /obj folder when using dotnet restore or dotnet build 
-        /// as it implicitly calls restore before build, or msbuid.exe /t:restore
-        /// with msbuild CLI.
-        /// </remarks>
-        string GetLockFile();
+        /// <exception cref="SwitcherFileNotFoundException"/>
+        LockFileTarget GetProjectTarget();
 
         /// <summary>
         /// 

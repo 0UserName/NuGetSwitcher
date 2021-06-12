@@ -7,6 +7,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Build"           Version="16.9.0" />
     <PackageReference Include="Microsoft.Build.Framework" Version="16.9.0" />
+
+    <PackageReference Include="NuGet.Common"       Version="5.9.1" />
+    <PackageReference Include="NuGet.ProjectModel" Version="5.9.1" />
   </ItemGroup>
 
 </Project>
