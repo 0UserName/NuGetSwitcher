@@ -78,9 +78,9 @@ namespace NuGetSwitcher.Interface.Entity
             Dictionary<string, string> _msbProperties = new
             Dictionary<string, string>
             {
-                { "MSBuildProjectFullPath" , "" },
-                { "TargetFrameworkMoniker" , "" },
-                { "TargetFrameworks"       , "" }
+                { "MSBuildProjectFullPath" , default },
+                { "TargetFrameworkMoniker" , default },
+                { "TargetFrameworks"       , default }
             };
 
         public ProjectReference(string solutionFile, MsbProject project)
