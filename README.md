@@ -69,8 +69,21 @@ Will be processed as if it had <code>TFMs</code>:
 </TargetFrameworkVersion>
 ```
 
+## Comments
+
 <div style="text-align: justify">
-In fact, this is governed by the <code>TargetFrameworkMoniker</code> property presented as <code>EnvDTE.Property</code> of <code>EnvDTE.Project</code>.
+Separate lines entered in the configuration file can be commented out as follows:
+</div>
+
+```
+#E:\Project\a\LibraryA
+#E:\Project\b\LibraryB
+E:\Project\c\LibraryC
+E:\Project\d\LibraryD
+```
+
+<div style="text-align: justify">
+With this configuration, at the moment of switching references, the search will be performed only in the last two directories.
 </div>
 
 ## Requirements
