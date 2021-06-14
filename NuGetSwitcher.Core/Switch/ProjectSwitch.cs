@@ -7,7 +7,6 @@ using NuGet.ProjectModel;
 using NuGetSwitcher.Core.Abstract;
 
 using NuGetSwitcher.Interface.Contract;
-using NuGetSwitcher.Interface.Entity;
 using NuGetSwitcher.Interface.Entity.Enum;
 using NuGetSwitcher.Interface.Entity.Error;
 
