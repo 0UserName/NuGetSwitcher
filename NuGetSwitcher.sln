@@ -3,15 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29814.53
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.Core", "NuGetSwitcher.Core\NuGetSwitcher.Core.csproj", "{67351706-56B0-47D4-891E-5BF7F793E7DA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cli", "cli", "{76EFEBBD-96B7-4A69-974E-AA8CA13A4FC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGetSwitcher", "NuGetSwitcher\NuGetSwitcher.csproj", "{84B1229D-B179-4211-975F-AE016DCC9C58}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{BC8FCF3E-5A7D-4F0C-B6C3-2BECA84A98F7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.VSIXMenu", "NuGetSwitcher.VSIXMenu\NuGetSwitcher.VSIXMenu.csproj", "{2D70F76A-789A-433D-8FD1-71F2B3FDE233}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vsix", "vsix", "{4F8A2133-D4FC-41C5-83FE-E758C1C3460D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.Interface", "NuGetSwitcher.Interface\NuGetSwitcher.Interface.csproj", "{CE22FE09-7E92-4778-AB22-66A8B3D79117}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.Interface", "lib\nugetswitcher.interface\NuGetSwitcher.Interface.csproj", "{39208419-9DF1-4A5E-8BD9-49B5BB76F9F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.VSIXService", "NuGetSwitcher.VSIXService\NuGetSwitcher.VSIXService.csproj", "{ECEBF537-A813-4DA1-ACF9-B4B1E087EBA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.Core", "lib\nugetswitcher.core\NuGetSwitcher.Core.csproj", "{F7A2830B-B895-4B52-9C08-3D607166DB02}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.CLIService", "cli\nugetswitcher.cliservice\NuGetSwitcher.CLIService.csproj", "{5A36574D-BCD7-46F9-9A92-FEA1BEEE025A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.CLI", "cli\nugetswitcher.cli\NuGetSwitcher.CLI.csproj", "{B5757471-E10B-4829-A496-34ACA7C07E3E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.VSIXService", "vsix\nugetswitcher.vsixservice\NuGetSwitcher.VSIXService.csproj", "{2D937DAB-42DF-4DC7-9AF7-CA170B9995AA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.VSIXMenu", "vsix\nugetswitcher.vsixmenu\NuGetSwitcher.VSIXMenu.csproj", "{CA8E015F-E8CE-45B9-AED9-2FFB603ED432}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGetSwitcher.VSIX", "vsix\nugetswitcher.vsix\NuGetSwitcher.VSIX.csproj", "{84B1229D-B179-4211-975F-AE016DCC9C58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,29 +29,46 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{67351706-56B0-47D4-891E-5BF7F793E7DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67351706-56B0-47D4-891E-5BF7F793E7DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67351706-56B0-47D4-891E-5BF7F793E7DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67351706-56B0-47D4-891E-5BF7F793E7DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39208419-9DF1-4A5E-8BD9-49B5BB76F9F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39208419-9DF1-4A5E-8BD9-49B5BB76F9F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39208419-9DF1-4A5E-8BD9-49B5BB76F9F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39208419-9DF1-4A5E-8BD9-49B5BB76F9F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7A2830B-B895-4B52-9C08-3D607166DB02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7A2830B-B895-4B52-9C08-3D607166DB02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7A2830B-B895-4B52-9C08-3D607166DB02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7A2830B-B895-4B52-9C08-3D607166DB02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A36574D-BCD7-46F9-9A92-FEA1BEEE025A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A36574D-BCD7-46F9-9A92-FEA1BEEE025A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A36574D-BCD7-46F9-9A92-FEA1BEEE025A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A36574D-BCD7-46F9-9A92-FEA1BEEE025A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5757471-E10B-4829-A496-34ACA7C07E3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5757471-E10B-4829-A496-34ACA7C07E3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5757471-E10B-4829-A496-34ACA7C07E3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5757471-E10B-4829-A496-34ACA7C07E3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D937DAB-42DF-4DC7-9AF7-CA170B9995AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D937DAB-42DF-4DC7-9AF7-CA170B9995AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D937DAB-42DF-4DC7-9AF7-CA170B9995AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D937DAB-42DF-4DC7-9AF7-CA170B9995AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA8E015F-E8CE-45B9-AED9-2FFB603ED432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA8E015F-E8CE-45B9-AED9-2FFB603ED432}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA8E015F-E8CE-45B9-AED9-2FFB603ED432}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA8E015F-E8CE-45B9-AED9-2FFB603ED432}.Release|Any CPU.Build.0 = Release|Any CPU
 		{84B1229D-B179-4211-975F-AE016DCC9C58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{84B1229D-B179-4211-975F-AE016DCC9C58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84B1229D-B179-4211-975F-AE016DCC9C58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84B1229D-B179-4211-975F-AE016DCC9C58}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D70F76A-789A-433D-8FD1-71F2B3FDE233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D70F76A-789A-433D-8FD1-71F2B3FDE233}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D70F76A-789A-433D-8FD1-71F2B3FDE233}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D70F76A-789A-433D-8FD1-71F2B3FDE233}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE22FE09-7E92-4778-AB22-66A8B3D79117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE22FE09-7E92-4778-AB22-66A8B3D79117}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE22FE09-7E92-4778-AB22-66A8B3D79117}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE22FE09-7E92-4778-AB22-66A8B3D79117}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ECEBF537-A813-4DA1-ACF9-B4B1E087EBA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECEBF537-A813-4DA1-ACF9-B4B1E087EBA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECEBF537-A813-4DA1-ACF9-B4B1E087EBA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECEBF537-A813-4DA1-ACF9-B4B1E087EBA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{39208419-9DF1-4A5E-8BD9-49B5BB76F9F3} = {BC8FCF3E-5A7D-4F0C-B6C3-2BECA84A98F7}
+		{F7A2830B-B895-4B52-9C08-3D607166DB02} = {BC8FCF3E-5A7D-4F0C-B6C3-2BECA84A98F7}
+		{5A36574D-BCD7-46F9-9A92-FEA1BEEE025A} = {76EFEBBD-96B7-4A69-974E-AA8CA13A4FC1}
+		{B5757471-E10B-4829-A496-34ACA7C07E3E} = {76EFEBBD-96B7-4A69-974E-AA8CA13A4FC1}
+		{2D937DAB-42DF-4DC7-9AF7-CA170B9995AA} = {4F8A2133-D4FC-41C5-83FE-E758C1C3460D}
+		{CA8E015F-E8CE-45B9-AED9-2FFB603ED432} = {4F8A2133-D4FC-41C5-83FE-E758C1C3460D}
+		{84B1229D-B179-4211-975F-AE016DCC9C58} = {4F8A2133-D4FC-41C5-83FE-E758C1C3460D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12B52BBE-0153-4040-9F79-2DC5896B335A}
