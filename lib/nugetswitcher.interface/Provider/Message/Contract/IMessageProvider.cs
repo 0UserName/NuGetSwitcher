@@ -51,6 +51,6 @@ namespace NuGetSwitcher.Interface.Provider.Message.Contract
         /// Clears previously 
         /// created messages.
         /// </summary>
-        void Clear();
+        IMessageProvider Clear();
     }
 }

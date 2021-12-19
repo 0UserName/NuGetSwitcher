@@ -68,9 +68,9 @@ namespace NuGetSwitcher.CLIService.Message
         /// Clears previously 
         /// created messages.
         /// </summary>
-        public void Clear()
+        public IMessageProvider Clear()
         {
-            // Noop.
+            return this;
         }
     }
 }

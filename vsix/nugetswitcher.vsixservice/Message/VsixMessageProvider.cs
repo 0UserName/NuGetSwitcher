@@ -143,9 +143,11 @@ namespace NuGetSwitcher.VSIXService.Message
         /// Clears previously created tasks 
         /// in <see cref="ErrorListProvider"/>.
         /// </summary>
-        public void Clear()
+        public IMessageProvider Clear()
         {
             _errorList.Tasks.Clear();
+
+            return this;
         }
     }
 }
