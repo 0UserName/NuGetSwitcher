@@ -11,7 +11,6 @@ using NuGetSwitcher.Core.Switch;
 using NuGetSwitcher.Interface.Entity.Enum;
 using NuGetSwitcher.Interface.Provider.Option.Contract;
 
-using System;
 using System.Reflection;
 
 namespace NuGetSwitcher.CLI
@@ -56,9 +55,6 @@ namespace NuGetSwitcher.CLI
                     messageProvider.AddMessage($"Unable to continue program execution, input arguments: { string.Join(" ", args) }", MessageCategory.ER);
                     break;
             }
-
-
-            Console.ReadKey(true);
         }
     }
 }
