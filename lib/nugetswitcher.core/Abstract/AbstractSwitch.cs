@@ -163,33 +163,25 @@ namespace NuGetSwitcher.Core.Abstract
         }
 
         /// <summary>
-        /// Provides a convenient way to list 
-        /// and modify projects in a solution 
-        /// file.
+        /// Performs an action on the solution file, taking 
+        /// into account the passed <paramref name="builder"/>.
         /// </summary>
         protected virtual void SlnAction(string solution, IEnumerable<string> projects, ArgumentsBuilder builder)
         {
+            void Log(string source, MessageCategory category)
+            {
+                if (!string.IsNullOrWhiteSpace(source))
+                {
+                    MessageProvider.Clear().AddMessage(source, category);
+                }
+            }
+
             if (projects.Any())
             {
-                CliWrap.Command command = Cli.Wrap("dotnet").WithWorkingDirectory(Path.GetDirectoryName(solution))
+                BufferedCommandResult result = Cli.Wrap("dotnet").WithWorkingDirectory(Path.GetDirectoryName(solution)).WithArguments(args => args.Add("sln").Add(solution).Add(builder.Build(), false)).ExecuteBufferedAsync().GetAwaiter().GetResult();
 
-                    .WithArguments(args => args.Add("sln").Add(solution).Add(builder.Build(), false));
-
-                BufferedCommandResult result = command.ExecuteBufferedAsync().GetAwaiter().GetResult();
-
-                if (!string.IsNullOrWhiteSpace(result.StandardOutput))
-                {
-                    MessageProvider.Clear();
-
-                    MessageProvider.AddMessage(result.StandardOutput, MessageCategory.ME);
-                }
-
-                if (!string.IsNullOrWhiteSpace(result.StandardError))
-                {
-                    MessageProvider.Clear();
-
-                    MessageProvider.AddMessage(result.StandardError, MessageCategory.ER);
-                }
+                Log(result.StandardOutput, MessageCategory.ME);
+                Log(result.StandardError , MessageCategory.ER);
             }
         }
     }
