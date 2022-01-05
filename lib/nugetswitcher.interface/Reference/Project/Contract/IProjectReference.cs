@@ -1,6 +1,9 @@
 ﻿using NuGet.ProjectModel;
 
+using NuGetSwitcher.Interface.Entity.Enum;
 using NuGetSwitcher.Interface.Entity.Error;
+
+using System.Collections.Generic;
 
 using MsbProject = Microsoft.Build.Evaluation.Project;
 
@@ -43,20 +46,6 @@ namespace NuGetSwitcher.Interface.Reference.Project.Contract
         }
 
         /// <summary>
-        /// Checks that the project 
-        /// is inside the directory 
-        /// of the current solution.
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// Projects outside the directory are considered temporary.
-        /// </remarks>
-        bool IsTemp
-        {
-            get;
-        }
-
-        /// <summary>
         /// Returns the <see cref="LockFileTarget"/> section
         /// for a project TFM from the lock file provided by 
         /// <see cref="LockFile"/>.
@@ -67,6 +56,24 @@ namespace NuGetSwitcher.Interface.Reference.Project.Contract
 
         /// <summary>
         /// 
+        /// </summary>
+        /// 
+        /// <param name="unevaluatedInclude">
+        /// Must contain the assembly 
+        /// name or the absolute path 
+        /// to the project or Package
+        /// Id.
+        /// </param>
+        bool IsReferencePresent(string unevaluatedInclude);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        bool AddReference(string unevaluatedInclude, ReferenceType type, Dictionary<string, string> metadata);
+
+        /// <summary>
+        /// Save the project to the file system, 
+        /// if dirty. Uses the default encoding.
         /// </summary>
         void Save();
     }

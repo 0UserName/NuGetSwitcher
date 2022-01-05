@@ -42,7 +42,7 @@ namespace NuGetSwitcher.Interface.Provider.Project
             {
                 if (project.ProjectType == SolutionProjectType.KnownToBeMSBuildFormat)
                 {
-                    projects.Add((TProjectReference)Activator.CreateInstance(typeof(TProjectReference), Solution, GetLoadedProject(project.AbsolutePath)));
+                    projects.Add((TProjectReference)Activator.CreateInstance(typeof(TProjectReference), GetLoadedProject(project.AbsolutePath)));
                 }
             }
 

@@ -71,22 +71,7 @@ namespace NuGetSwitcher.Interface.Reference.Project
             get => _msbProperties["TargetFrameworks"] ?? TFM;
         }
 
-        /// <summary>
-        /// Checks that the project 
-        /// is inside the directory 
-        /// of the current solution.
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// Projects outside the directory are considered temporary.
-        /// </remarks>
-        public bool IsTemp
-        {
-            get;
-            private set;
-        }
-
-        public ProjectReference(string solutionFile, MsbProject project)
+        public ProjectReference(MsbProject project)
         {
             MsbProject = project;
 
@@ -107,8 +92,6 @@ namespace NuGetSwitcher.Interface.Reference.Project
              */
 
             _nuGetFramework = NuGetFramework.Parse(TFM ?? TFMs.Split(';')[0]);
-
-            IsTemp = !Directory.GetFiles(Path.GetDirectoryName(solutionFile), Path.GetFileName(MsbProject.FullPath), SearchOption.AllDirectories).Any();
         }
 
         /// <summary>
@@ -166,6 +149,44 @@ namespace NuGetSwitcher.Interface.Reference.Project
 
         /// <summary>
         /// 
+        /// </summary>
+        /// 
+        /// <param name="unevaluatedInclude">
+        /// Must contain the assembly 
+        /// name or the absolute path 
+        /// to the project or Package
+        /// Id.
+        /// </param>
+        public bool IsReferencePresent(string unevaluatedInclude)
+        {
+            return MsbProject.GetItemsByEvaluatedInclude(unevaluatedInclude).Any();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// 
+        /// <param name="unevaluatedInclude">
+        /// Must contain the assembly 
+        /// name or the absolute path 
+        /// to the project or Package
+        /// Id.
+        /// </param>
+        public bool AddReference(string unevaluatedInclude, ReferenceType type, Dictionary<string, string> metadata)
+        {
+            bool output = !IsReferencePresent(unevaluatedInclude);
+
+            if (output)
+            {
+                MsbProject.AddItem(type.ToString(), unevaluatedInclude, metadata);
+            }
+
+            return output;
+        }
+
+        /// <summary>
+        /// Save the project to the file system, 
+        /// if dirty. Uses the default encoding.
         /// </summary>
         public void Save()
         {
