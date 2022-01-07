@@ -76,7 +76,9 @@ namespace NuGetSwitcher.Core.Switch
         {
             Dictionary<string, string> metadata = new
             Dictionary<string, string>
-            (1);
+            {
+                { "Temp", library.Name }
+            };
 
             foreach (string assembly in library.FrameworkAssemblies)
             {
@@ -110,7 +112,8 @@ namespace NuGetSwitcher.Core.Switch
             {
                 base.AddReference(reference, Type, absolutePath, new Dictionary<string, string>(2)
                 {
-                    { "Name", library.Name }
+                    { "Name", library.Name },
+                    { "Temp", library.Name }
                 });
             }
             // Explicit.

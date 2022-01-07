@@ -105,7 +105,7 @@ namespace NuGetSwitcher.Core.Switch
         }
 
         /// <summary>
-        /// Removes a project or multiple projects from the solution file.
+        /// Removes projects from the solution file.
         /// </summary>
         protected virtual void RemoveFromSolution(string solution, IEnumerable<string> projects)
         {

@@ -51,7 +51,7 @@ namespace NuGetSwitcher.Core.Abstract
         {
             Type = type;
 
-            OptionProvider = optionProvider;
+            OptionProvider  = optionProvider;
             ProjectProvider = projectProvider;
             MessageProvider = messageProvider;
         }
@@ -96,25 +96,6 @@ namespace NuGetSwitcher.Core.Abstract
         }
 
         /// <summary>
-        /// Performs metadata validation
-        /// and filling with data common 
-        /// to all references.
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// See: <seealso cref="AddReference(ProjectReference, ReferenceType, string, Dictionary{string, string})"/>.
-        /// </remarks>
-        protected virtual Dictionary<string, string> AdaptMetadata(string unevaluatedInclude, Dictionary<string, string> metadata)
-        {
-            if (!metadata.ContainsKey("Temp"))
-            {
-                metadata.Add("Temp", unevaluatedInclude);
-            }
-
-            return metadata;
-        }
-
-        /// <summary>
         /// Adds reference to the project. It is assumed
         /// that the original reference has been removed 
         /// earlier.
@@ -126,40 +107,12 @@ namespace NuGetSwitcher.Core.Abstract
         /// to the project or Package
         /// Id.
         /// </param>
-        /// 
-        /// <exception cref="SwitcherException"/>
-        /// 
-        /// <returns>
-        /// Returns false for duplicate <paramref name="unevaluatedInclude"/> values.
-        /// </returns>
-        protected virtual bool AddReference(IProjectReference reference, ReferenceType type, string unevaluatedInclude, Dictionary<string, string> metadata)
+        protected virtual void AddReference(IProjectReference reference, ReferenceType type, string unevaluatedInclude, Dictionary<string, string> metadata)
         {
-            bool output = true;
-
-            switch (type)
-            {
-                case ReferenceType.ProjectReference:
-                case ReferenceType.PackageReference:
-                case ReferenceType.Reference:
-                    if (reference.MsbProject.GetItemsByEvaluatedInclude(unevaluatedInclude).Any())
-                    {
-                        output = false;
-                    }
-                    else
-                    {
-                        reference.MsbProject.AddItem(type.ToString(), unevaluatedInclude, AdaptMetadata(unevaluatedInclude, metadata));
-                    }
-                    break;
-                default:
-                    throw new SwitcherException(reference.MsbProject, $"Reference type not supported: { type }");
-            }
-
-            if (output)
+            if (reference.AddReference(unevaluatedInclude, type, metadata))
             {
                 MessageProvider.AddMessage(reference.MsbProject.FullPath, $"Dependency: { Path.GetFileName(unevaluatedInclude) } has been added. Type: { type }", MessageCategory.ME);
             }
-
-            return output;
         }
 
         /// <summary>
