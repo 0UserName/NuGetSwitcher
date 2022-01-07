@@ -65,9 +65,6 @@ namespace NuGetSwitcher.VSIX
             VsixMessageProvider messageProvider = new VsixMessageProvider(vsSolution, new ErrorListProvider(this));
             VsixProjectProvider projectProvider = new VsixProjectProvider(pbstrSolutionFile);
 
-            RegisterService(messageProvider);
-            RegisterService(projectProvider);
-
 
             // Option provider.
             IOptionProvider optionProvider = new VsixOptionProvider(messageProvider);
