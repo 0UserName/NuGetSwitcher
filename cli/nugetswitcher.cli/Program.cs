@@ -15,7 +15,7 @@ using System.Reflection;
 
 namespace NuGetSwitcher.CLI
 {
-    internal class Program
+    internal static class Program
     {
         public static void Main(string[] args)
         {

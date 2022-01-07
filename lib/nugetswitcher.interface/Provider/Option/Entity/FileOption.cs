@@ -46,7 +46,7 @@ namespace NuGetSwitcher.Interface.Provider.Option.Entity
             Pattern = pattern;
         }
 
-        private IEnumerable<string> ReadConfig(string path)
+        private static IEnumerable<string> ReadConfig(string path)
         {
             return File.ReadAllLines(path).Where(l => !l.StartsWith("#")) ?? Enumerable.Empty<string>();
         }

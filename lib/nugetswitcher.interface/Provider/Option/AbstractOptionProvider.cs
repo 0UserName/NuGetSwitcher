@@ -42,7 +42,7 @@ namespace NuGetSwitcher.Interface.Provider.Option
         /// is found. Level at which the file is located is 
         /// not taken into account.
         /// </summary>
-        protected bool Contains(IEnumerable<string> excludeDirectories, string absolutePath)
+        protected static bool Contains(IEnumerable<string> excludeDirectories, string absolutePath)
         {
             const int NOT_FOUND = -1;
 
