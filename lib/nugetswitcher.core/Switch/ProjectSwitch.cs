@@ -112,7 +112,6 @@ namespace NuGetSwitcher.Core.Switch
             {
                 base.AddReference(reference, Type, absolutePath, new Dictionary<string, string>(2)
                 {
-                    { "Name", library.Name },
                     { "Temp", library.Name }
                 });
             }
