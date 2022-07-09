@@ -8,7 +8,6 @@
 
   <Include href="KnownImageIds.vsct" />
 
-
   <Commands package="guidNuGetSwitcher">
 
     <Groups>
@@ -39,14 +38,16 @@
 
   </Commands>
 
-
   <Symbols>
+
     <GuidSymbol name="guidNuGetSwitcher"          value="{fdb266b8-b91a-4bfd-b391-a4e013c176e2}" />
     <GuidSymbol name="guidNuGetSwitcherMenuGroup" value="{c6018e68-fcab-41d2-a34a-42f7df92b162}">
 
       <IDSymbol name="SwitcherMenuGroup"     value="0x1020" />
       <IDSymbol name="SwitcherProjectButton" value="0x0100" />
       <IDSymbol name="SwitcherPackageButton" value="0x0200" />
+
     </GuidSymbol>
   </Symbols>
+
 </CommandTable>

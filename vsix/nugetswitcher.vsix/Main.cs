@@ -8,6 +8,8 @@ using NuGetSwitcher.Core.Switch;
 using NuGetSwitcher.Interface.Provider.Command.Contract;
 using NuGetSwitcher.Interface.Provider.Option.Contract;
 
+using NuGetSwitcher.VSIXMenu;
+
 using NuGetSwitcher.VSIXService.Message;
 using NuGetSwitcher.VSIXService.Option;
 using NuGetSwitcher.VSIXService.Project;
