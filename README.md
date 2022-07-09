@@ -86,27 +86,12 @@ With this configuration, at the moment of switching references, the search for i
 ## Requirements
 
 <div style="text-align: justify">
-It is assumed that in the stable version the extension should support Visual Studio 19. The author conducted an initial test in the next version of Visual Studio:
+It is assumed that in the stable version the extension should support Visual Studio 22. The author conducted an initial test in the next version of Visual Studio:
 </div>
 
 ```
-Microsoft Visual Studio Community 2019
-Version 16.11.7
-```
-
-```
-Microsoft Visual Studio Community 2019 Preview
-Version 16.9.0 Preview 2.0
-```
-
-```
-Microsoft Visual Studio Community 2019 Preview
-Version 16.5.0 Preview 3.0
-```
-
-```
-Microsoft Visual Studio Community 2019
-Version 16.4.2
+Microsoft Visual Studio Community 2022
+Version 17.2.5
 ```
 
 <div style="text-align: justify">
