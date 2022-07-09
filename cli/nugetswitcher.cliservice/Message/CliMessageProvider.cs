@@ -51,7 +51,7 @@ namespace NuGetSwitcher.CLIService.Message
         /// </param>
         public void AddMessage(string project, Exception exception, [CallerMemberName] string caller = "")
         {
-            Console.WriteLine($"{ project } - { exception}");
+            Console.WriteLine($"{ project } - { exception }");
         }
 
         /// <summary>

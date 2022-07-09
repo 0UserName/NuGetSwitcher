@@ -75,9 +75,7 @@ namespace NuGetSwitcher.Interface.Reference.Project
         {
             MsbProject = project;
 
-#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
             foreach (ProjectProperty property in MsbProject.Properties)
-#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
             {
                 if (_msbProperties.ContainsKey(property.Name))
                 {
@@ -121,9 +119,7 @@ namespace NuGetSwitcher.Interface.Reference.Project
                  * exception.
                  */
 
-#pragma warning disable S1066 // Collapsible "if" statements should be merged
                 if (MsbProject.GetItems(nameof(ReferenceType.PackageReference)).Any())
-#pragma warning restore S1066 // Collapsible "if" statements should be merged
                 {
                     throw new SwitcherFileNotFoundException(MsbProject, $"File { path }. Message: Project lock file not found");
                 }

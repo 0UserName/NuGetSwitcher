@@ -15,8 +15,9 @@ namespace NuGetSwitcher.CLIService.Project
         /// ProjectCollection. Multiple ProjectCollections can exist within an appdomain. However, these must not 
         /// build concurrently.
         /// </summary>
-        private readonly ProjectCollection _projectCollection = new
-                         ProjectCollection
+        private readonly
+            ProjectCollection _projectCollection = new
+            ProjectCollection
             ();
 
         public CliProjectProvider(string solution) : base(solution)
