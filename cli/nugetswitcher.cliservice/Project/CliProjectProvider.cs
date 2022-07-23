@@ -26,7 +26,7 @@ namespace NuGetSwitcher.CLIService.Project
         /// <summary>
         /// Loads a project with the specified filename, using the 
         /// collection's global properties and tools version. If a 
-        /// matching project is already loaded, it will be returned,otherwise a new project will be loaded.
+        /// matching project is already loaded, it will be returned, otherwise a new project will be loaded.
         /// </summary>
         public override MsbProject GetLoadedProject(string project)
         {

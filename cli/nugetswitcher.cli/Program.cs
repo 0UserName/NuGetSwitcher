@@ -22,8 +22,13 @@ namespace NuGetSwitcher.CLI
             CliArguments cliArgs = args;
 
 
-            CliMessageProvider messageProvider = new CliMessageProvider();
-            CliProjectProvider projectProvider = new CliProjectProvider(cliArgs.Solution);
+            CliMessageProvider messageProvider = new
+            CliMessageProvider
+            ();
+
+            CliProjectProvider projectProvider = new
+            CliProjectProvider
+            (cliArgs.Solution);
 
 
             IOptionProvider optionProvider = new CliOptionProvider(messageProvider)
