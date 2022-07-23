@@ -3,13 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-    <PackAsTool>true</PackAsTool>
-    <ToolCommandName>nswitch</ToolCommandName>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\nugetswitcher.core\NuGetSwitcher.Core.csproj" />
     <ProjectReference Include="..\nugetswitcher.cliservice\NuGetSwitcher.CLIService.csproj" />
   </ItemGroup>
 

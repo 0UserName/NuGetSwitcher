@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\nugetswitcher.interface\NuGetSwitcher.Interface.csproj" />
+    <ProjectReference Include="..\..\lib\nugetswitcher.core\NuGetSwitcher.Core.csproj" />
   </ItemGroup>
 
 </Project>
