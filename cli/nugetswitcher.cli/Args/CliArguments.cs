@@ -1,10 +1,13 @@
-﻿using NuGetSwitcher.Interface.Entity.Enum;
+﻿using NuGetSwitcher.Core.Commands.Enums;
 
 namespace NuGetSwitcher.CLI.Args
 {
-    internal class CliArguments
+    internal sealed class CliArguments
     {
-        public string Solution
+        /// <summary>
+        /// Absolute path to the solution file.
+        /// </summary>
+        public string AbsolutePath
         {
             get;
             private set;
@@ -30,11 +33,9 @@ namespace NuGetSwitcher.CLI.Args
 
         public CliArguments(string[] args)
         {
-            Solution = args[0];
-
-            for (int i = 1; i < args.Length; i++)
+            for (int i = 0; i < args.Length; i++)
             {
-                switch (args[i].ToLowerInvariant())
+                switch (args[i])
                 {
                     case "--help":
                         Mode = Mode.HL;
@@ -56,13 +57,11 @@ namespace NuGetSwitcher.CLI.Args
                         ExcludeProjectFile = args[i + 1];
                         ++i;
                         break;
+                    default:
+                        AbsolutePath = args[i];
+                        break;
                 }
             }
-        }
-
-        public static implicit operator CliArguments(string[] args)
-        {
-            return new CliArguments(args);
         }
     }
 }

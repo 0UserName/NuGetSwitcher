@@ -1,15 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net472;net5.0</TargetFrameworks>
-  </PropertyGroup>
+	<ItemGroup>
+		<!-- CLI -->
+		<PackageReference Include="CliWrap" Version="3.10.0" />
+		<!-- CLI -->
 
-  <ItemGroup>
-    <PackageReference Include="CliWrap" Version="3.4.4" />
-  </ItemGroup>
+		<!-- Solution -->
+		<PackageReference Include="Microsoft.VisualStudio.SolutionPersistence" Version="1.0.52" />
+		<!-- Solution -->
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\nugetswitcher.interface\NuGetSwitcher.Interface.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\nugetswitcher.interface\NuGetSwitcher.Interface.csproj" />
+	</ItemGroup>
 
 </Project>

@@ -1,58 +1,57 @@
 ﻿using NuGetSwitcher.CLI.Args;
 
-using NuGetSwitcher.CLIService.Message;
-using NuGetSwitcher.CLIService.Option;
-using NuGetSwitcher.CLIService.Project;
+using NuGetSwitcher.CLIService.Logger;
+using NuGetSwitcher.CLIService.Options;
 
-using NuGetSwitcher.Core.Abstract;
-using NuGetSwitcher.Core.Command;
-using NuGetSwitcher.Core.Switch;
+using NuGetSwitcher.Core.Commands;
+using NuGetSwitcher.Core.Commands.Enums;
 
-using NuGetSwitcher.Interface.Entity.Enum;
-using NuGetSwitcher.Interface.Provider.Option.Contract;
+using NuGetSwitcher.Core.Projects;
+using NuGetSwitcher.Core.Solution;
+
+using NuGetSwitcher.Interface.Logger.Enums;
 
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace NuGetSwitcher.CLI
 {
     internal static class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CliArguments cliArgs = args;
+            CliArguments cliArgs = new
+            CliArguments
+            (args);
 
+            CliLogger logger = new
+            CliLogger
+            ();
 
-            CliMessageProvider messageProvider = new CliMessageProvider();
-            CliProjectProvider projectProvider = new CliProjectProvider(cliArgs.Solution);
+            CliOptions options = new
+            CliOptions
+            (cliArgs.IncludeProjectFile, cliArgs.ExcludeProjectFile, logger);
 
+            Solution<ProjectReference> solution = new
+            Solution<ProjectReference>
+            (cliArgs.AbsolutePath);
 
-            IOptionProvider optionProvider = new CliOptionProvider(messageProvider)
-            {
-                IncludeProjectFile = cliArgs.IncludeProjectFile,
-                ExcludeProjectFile = cliArgs.ExcludeProjectFile
-            };
-
-
-            AbstractSwitch projectSwtich = new ProjectSwitch(optionProvider, projectProvider, messageProvider);
-            AbstractSwitch packageSwitch = new PackageSwitch(optionProvider, projectProvider, messageProvider);
-
-
-            CommandProvider commandProvider = new
-            CommandProvider
-            (projectSwtich, packageSwitch);
-
+            ProjectCommand<ProjectReference> projectCommand = new ProjectCommand<ProjectReference>(options, solution, logger);
+            PackageCommand<ProjectReference> packageCommand = new PackageCommand<ProjectReference>(options, solution, logger);
 
             switch (cliArgs.Mode)
             {
                 case Mode.VR:
-                    messageProvider.AddMessage(Assembly.GetExecutingAssembly().GetName().Version.ToString(), MessageCategory.ME);
+                    logger.LogMessage(Assembly.GetExecutingAssembly().GetName().Version.ToString(), Category.I);
+                    break;
+                case Mode.PK:
+                    await packageCommand.SwitchAsync();
                     break;
                 case Mode.PR:
-                case Mode.PK:
-                    commandProvider.Route(cliArgs.Mode);
+                    await projectCommand.SwitchAsync();
                     break;
                 default:
-                    messageProvider.AddMessage($"Unable to continue program execution, input arguments: { string.Join(" ", args) }", MessageCategory.ER);
+                    logger.LogMessage($"Unable to continue program execution, input arguments: { string.Join(' ', args) }", Category.E);
                     break;
             }
         }

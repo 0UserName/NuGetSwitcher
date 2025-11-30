@@ -1,15 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net472;net5.0</TargetFrameworks>
-  </PropertyGroup>
+	<ItemGroup>
+		<!-- Project -->
+		<PackageReference Include="Microsoft.Build" Version="18.0.2" />
+		<!-- Project -->
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Build"           Version="16.9.0" />
-    <PackageReference Include="Microsoft.Build.Framework" Version="16.9.0" />
-
-    <PackageReference Include="NuGet.Common"       Version="6.2.1" />
-    <PackageReference Include="NuGet.ProjectModel" Version="6.2.1" />
-  </ItemGroup>
+		<!-- NuGet -->
+		<PackageReference Include="NuGet.ProjectModel" Version="7.0.0" />
+		<!-- NuGet -->
+	</ItemGroup>
 
 </Project>
