@@ -1,0 +1,15 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="arm64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/cli/">
+    <Project Path="cli/nugetswitcher.cli/NuGetSwitcher.CLI.csproj" />
+    <Project Path="cli/nugetswitcher.cliservice/NuGetSwitcher.CLIService.csproj" />
+  </Folder>
+  <Folder Name="/lib/">
+    <Project Path="lib/nugetswitcher.core/NuGetSwitcher.Core.csproj" />
+    <Project Path="lib/nugetswitcher.interface/NuGetSwitcher.Interface.csproj" />
+  </Folder>
+</Solution>

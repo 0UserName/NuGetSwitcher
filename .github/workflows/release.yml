@@ -1,0 +1,29 @@
+on:
+  push:
+    tags: ["**"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Pull'
+        uses: 'actions/checkout@v6'
+
+
+      - name: 'Setup .NET'
+        uses: 'actions/setup-dotnet@v5'
+        with:
+          dotnet-version: 10.0.x
+
+
+      - name: 'Build'
+        run : 'dotnet build -c Release -p:GeneratePackageOnBuild=true -p:Version=${{ github.ref_name }}' 
+
+
+      - name: Test
+        run: dotnet test --no-build
+
+
+      - name: Push
+        run: dotnet nuget push **/*.nupkg -k ${{ secrets.NUGET_PASSWORD }} -s {{ vars.NUGET_HOSTNAME }}
